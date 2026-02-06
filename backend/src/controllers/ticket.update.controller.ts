@@ -20,7 +20,7 @@ const generateFormattedMessage = (ticket: any): { email: string; whatsapp: strin
   );
 
   const emailHtml = `
-    <p><strong>EPS - EMPRENDIMENTOS</strong> - Sua nota de serviço foi atualizada com os seguintes dados:</p>
+    <p><strong>Tickytoria</strong> - Sua nota de serviço foi atualizada com os seguintes dados:</p>
     <ul>
       <li><strong>Cliente:</strong> ${ticket.cliente}</li>
       <li><strong>Empresa:</strong> ${ticket.empresa}</li>
@@ -37,7 +37,7 @@ const generateFormattedMessage = (ticket: any): { email: string; whatsapp: strin
   `;
 
   const whatsappText = `
-EPS - EMPRENDIMENTOS - Sua nota de serviço foi atualizada com os seguintes dados:
+Tickytoria - Sua nota de serviço foi atualizada com os seguintes dados:
 
 • Cliente: ${ticket.cliente}
 • Empresa: ${ticket.empresa}

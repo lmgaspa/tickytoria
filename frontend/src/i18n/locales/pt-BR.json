@@ -1,0 +1,180 @@
+{
+  "nav": {
+    "home": "Início",
+    "dashboard": "Painel",
+    "logout": "Sair",
+    "language": "Idioma"
+  },
+  "home": {
+    "hero": {
+      "title": "Tickytoria",
+      "subtitle": "A nova era do gerenciamento de serviços.",
+      "description": "Simples. Poderoso. Elegante.",
+      "accessButton": "Acessar Sistema"
+    },
+    "features": {
+      "title": "O que o Tickytoria Faz",
+      "serviceTickets": {
+        "title": "Gerenciamento de Notas de Serviço",
+        "description": "Crie, pesquise e edite notas de serviço com facilidade. Gerenciamento completo de documentos com suporte a CPF/CNPJ e descrições detalhadas de serviço.",
+        "quickRegistration": "Registro rápido",
+        "advancedSearch": "Busca avançada",
+        "editTracking": "Edição e acompanhamento"
+      },
+      "clientDatabase": {
+        "title": "Base de Clientes",
+        "description": "Sistema completo de gestão de clientes. Registre e consulte clientes por múltiplos critérios: CPF, CNPJ, nome, empresa ou contato.",
+        "completeRegistration": "Cadastro completo",
+        "multiSearch": "Busca multi-critério",
+        "contactInfo": "Informações de contato"
+      },
+      "teamManagement": {
+        "title": "Gestão de Equipe",
+        "description": "Ferramentas administrativas para gerenciar sua equipe. Registre funcionários, atribua funções e mantenha registros completos com informações de contato.",
+        "employeeRegistration": "Cadastro de funcionários",
+        "roleAssignment": "Atribuição de funções",
+        "teamDirectory": "Diretório da equipe"
+      },
+      "multilingual": {
+        "title": "Suporte Multilíngue",
+        "description": "Trabalhe no seu idioma preferido. Suporte completo para inglês, espanhol e português com troca instantânea de idioma."
+      },
+      "dashboard": {
+        "title": "Painel Intuitivo",
+        "description": "Interface moderna e bonita com acesso rápido a todos os recursos. Design glass-morphism com animações suaves.",
+        "modernDesign": "Design moderno",
+        "quickAccess": "Acesso rápido",
+        "responsive": "Layout responsivo"
+      },
+      "security": {
+        "title": "Segurança e Autenticação",
+        "description": "Sistema de autenticação seguro com tokens JWT, controle de acesso baseado em funções e recuperação de senha via e-mail.",
+        "secureLogin": "Login seguro",
+        "roleAccess": "Acesso baseado em função",
+        "passwordRecovery": "Recuperação de senha"
+      }
+    },
+    "cta": {
+      "title": "Pronto para começar?",
+      "description": "Junte-se ao Tickytoria hoje e transforme sua experiência de gerenciamento de serviços.",
+      "button": "Acessar Sistema Agora"
+    }
+  },
+  "auth": {
+    "login": "Entrar",
+    "register": "Registrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "forgotPassword": "Esqueci minha senha",
+    "resetPassword": "Resetar Senha",
+    "sendResetLink": "Enviar Link de Recuperação",
+    "passwordSent": "E-mail enviado! Verifique sua caixa de entrada.",
+    "backToLogin": "Voltar ao Login"
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo",
+    "subtitle": "Gerencie seus tickets com eficiência e rapidez.",
+    "searchTicket": "Buscar Nota",
+    "searchTicketDesc": "Consultar nota de serviço",
+    "newTicket": "Nova Nota de Serviço",
+    "newTicketDesc": "Criar novo serviço",
+    "registerClient": "Registrar Cliente",
+    "registerClientDesc": "Cadastrar novo cliente",
+    "searchClient": "Buscar Cliente",
+    "searchClientDesc": "Consultar base",
+    "registerEmployee": "Registrar Funcionários",
+    "registerEmployeeDesc": "Gerenciar equipe",
+    "searchEmployee": "Buscar Funcionário",
+    "searchEmployeeDesc": "Consultar equipe",
+    "logout": "Sair",
+    "logoutDesc": "Encerrar sessão"
+  },
+  "employee": {
+    "register": "Registrar Funcionário",
+    "search": "Buscar Funcionário",
+    "name": "Nome completo",
+    "role": "Função",
+    "whatsapp": "WhatsApp",
+    "address": "Endereço",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "registerButton": "Registrar Funcionário",
+    "searchBy": "Buscar por:",
+    "selectOption": "Selecione",
+    "byName": "Nome do Funcionário",
+    "byEmail": "E-mail",
+    "byWhatsApp": "WhatsApp",
+    "byRole": "Função",
+    "allEmployees": "Todos os Funcionários",
+    "searchButton": "Buscar",
+    "noResults": "Nenhum funcionário encontrado.",
+    "results": "Resultado",
+    "notInformed": "Não informado"
+  },
+  "client": {
+    "register": "Registrar Cliente",
+    "search": "Buscar Cliente",
+    "name": "Nome do Cliente",
+    "company": "Empresa",
+    "searchBy": "Buscar por:",
+    "selectOption": "Selecione",
+    "byCPF": "CPF",
+    "byCNPJ": "CNPJ",
+    "byName": "Nome do Cliente",
+    "byCompany": "Empresa",
+    "byPhone": "Telefone",
+    "byWhatsApp": "WhatsApp",
+    "allClients": "Todos os Clientes",
+    "searchButton": "Buscar",
+    "noResults": "Nenhum cliente encontrado."
+  },
+  "ticket": {
+    "register": "Cadastro de Nota de Serviço",
+    "search": "Buscar Nota de Serviço",
+    "edit": "Editar Ticket",
+    "cpf": "CPF",
+    "cnpj": "CNPJ",
+    "phone": "Telefone",
+    "whatsapp": "WhatsApp",
+    "client": "Cliente",
+    "company": "Empresa",
+    "email": "Email (opcional)",
+    "description": "Descrição",
+    "createButton": "Criar Nota",
+    "updateButton": "Atualizar",
+    "useCPFOrCNPJ": "Você quer usar CPF ou CNPJ?",
+    "usePhoneOrWhatsApp": "Você quer usar telefone ou WhatsApp?",
+    "startRegister": "Iniciar Cadastro",
+    "searchBy": "Buscar por:",
+    "ticketNumber": "Número da Nota",
+    "searchButton": "Buscar",
+    "noResults": "Nenhuma nota encontrada.",
+    "invalidCPF": "CPF inválido",
+    "invalidCNPJ": "CNPJ inválido",
+    "invalidEmail": "Email inválido",
+    "invalidPhone": "Inválido"
+  },
+  "common": {
+    "back": "⬅️ Voltar ao menu anterior",
+    "previous": "⬅️ Anterior",
+    "next": "Próxima ➔",
+    "loading": "Enviando...",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "delete": "Deletar",
+    "edit": "Editar",
+    "view": "Visualizar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "clear": "Limpar",
+    "yes": "Sim",
+    "no": "Não"
+  },
+  "footer": {
+    "subtitle": "Sistema de Gerenciamento de Serviços",
+    "poweredBy": "Desenvolvido por",
+    "rights": "Todos os direitos reservados"
+  }
+}

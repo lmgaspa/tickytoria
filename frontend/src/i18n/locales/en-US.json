@@ -1,0 +1,180 @@
+{
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "language": "Language"
+  },
+  "home": {
+    "hero": {
+      "title": "Tickytoria",
+      "subtitle": "The new era of service management.",
+      "description": "Simple. Powerful. Elegant.",
+      "accessButton": "Access System"
+    },
+    "features": {
+      "title": "What Tickytoria Does",
+      "serviceTickets": {
+        "title": "Service Ticket Management",
+        "description": "Create, search, and edit service tickets with ease. Complete document management with CPF/CNPJ support and detailed service descriptions.",
+        "quickRegistration": "Quick registration",
+        "advancedSearch": "Advanced search",
+        "editTracking": "Edit and tracking"
+      },
+      "clientDatabase": {
+        "title": "Client Database",
+        "description": "Complete client management system. Register and query customers by multiple criteria: CPF, CNPJ, name, company, or contact.",
+        "completeRegistration": "Complete registration",
+        "multiSearch": "Multi-criteria search",
+        "contactInfo": "Contact information"
+      },
+      "teamManagement": {
+        "title": "Team Management",
+        "description": "Admin tools to manage your team. Register employees, assign roles, and maintain complete records with contact information.",
+        "employeeRegistration": "Employee registration",
+        "roleAssignment": "Role assignment",
+        "teamDirectory": "Team directory"
+      },
+      "multilingual": {
+        "title": "Multilingual Support",
+        "description": "Work in your preferred language. Full support for English, Spanish, and Portuguese with instant language switching."
+      },
+      "dashboard": {
+        "title": "Intuitive Dashboard",
+        "description": "Modern and beautiful interface with quick access to all features. Glass-morphism design with smooth animations.",
+        "modernDesign": "Modern design",
+        "quickAccess": "Quick access",
+        "responsive": "Responsive layout"
+      },
+      "security": {
+        "title": "Security & Authentication",
+        "description": "Secure authentication system with JWT tokens, role-based access control, and password recovery via email.",
+        "secureLogin": "Secure login",
+        "roleAccess": "Role-based access",
+        "passwordRecovery": "Password recovery"
+      }
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "description": "Join Tickytoria today and transform your service management experience.",
+      "button": "Access System Now"
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "passwordSent": "Email sent! Check your inbox.",
+    "backToLogin": "Back to Login"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "subtitle": "Manage your tickets efficiently and quickly.",
+    "searchTicket": "Search Ticket",
+    "searchTicketDesc": "Query service note",
+    "newTicket": "New Service Note",
+    "newTicketDesc": "Create new service",
+    "registerClient": "Register Client",
+    "registerClientDesc": "Register new client",
+    "searchClient": "Search Client",
+    "searchClientDesc": "Query database",
+    "registerEmployee": "Register Employees",
+    "registerEmployeeDesc": "Manage team",
+    "searchEmployee": "Search Employee",
+    "searchEmployeeDesc": "Query team",
+    "logout": "Logout",
+    "logoutDesc": "End session"
+  },
+  "employee": {
+    "register": "Register Employee",
+    "search": "Search Employee",
+    "name": "Full name",
+    "role": "Role",
+    "whatsapp": "WhatsApp",
+    "address": "Address",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Register Employee",
+    "searchBy": "Search by:",
+    "selectOption": "Select",
+    "byName": "Employee Name",
+    "byEmail": "Email",
+    "byWhatsApp": "WhatsApp",
+    "byRole": "Role",
+    "allEmployees": "All Employees",
+    "searchButton": "Search",
+    "noResults": "No employee found.",
+    "results": "Results",
+    "notInformed": "Not informed"
+  },
+  "client": {
+    "register": "Register Client",
+    "search": "Search Client",
+    "name": "Client Name",
+    "company": "Company",
+    "searchBy": "Search by:",
+    "selectOption": "Select",
+    "byCPF": "CPF",
+    "byCNPJ": "CNPJ",
+    "byName": "Client Name",
+    "byCompany": "Company",
+    "byPhone": "Phone",
+    "byWhatsApp": "WhatsApp",
+    "allClients": "All Clients",
+    "searchButton": "Search",
+    "noResults": "No client found."
+  },
+  "ticket": {
+    "register": "Service Note Registration",
+    "search": "Search Service Note",
+    "edit": "Edit Ticket",
+    "cpf": "CPF",
+    "cnpj": "CNPJ",
+    "phone": "Phone",
+    "whatsapp": "WhatsApp",
+    "client": "Client",
+    "company": "Company",
+    "email": "Email (optional)",
+    "description": "Description",
+    "createButton": "Create Note",
+    "updateButton": "Update",
+    "useCPFOrCNPJ": "Do you want to use CPF or CNPJ?",
+    "usePhoneOrWhatsApp": "Do you want to use phone or WhatsApp?",
+    "startRegister": "Start Registration",
+    "searchBy": "Search by:",
+    "ticketNumber": "Ticket Number",
+    "searchButton": "Search",
+    "noResults": "No note found.",
+    "invalidCPF": "Invalid CPF",
+    "invalidCNPJ": "Invalid CNPJ",
+    "invalidEmail": "Invalid email",
+    "invalidPhone": "Invalid"
+  },
+  "common": {
+    "back": "⬅️ Back to previous menu",
+    "previous": "⬅️ Previous",
+    "next": "Next ➔",
+    "loading": "Sending...",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "footer": {
+    "subtitle": "Service Management System",
+    "poweredBy": "Powered by",
+    "rights": "All rights reserved"
+  }
+}

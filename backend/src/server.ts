@@ -3,6 +3,7 @@ import cors from 'cors';
 import { connectDB } from './database';
 import routes from './routes';
 import setupSwagger from './swagger';
+import { seedAdmin } from './utils/seedAdmin';
 
 const app = express();
 
@@ -16,12 +17,17 @@ app.use((req, res, next) => {
   next();
 });
 
-connectDB();
+const startServer = async () => {
+  await connectDB();
+  await seedAdmin();
 
-app.use('/api', routes);
-setupSwagger(app);
-
+  app.use('/api', routes);
+  
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-});
+
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+  });
+};
+
+startServer();

@@ -1,7 +1,7 @@
 export const swaggerDocs = {
   openapi: "3.0.0",
   info: {
-    title: "API de Chamados EPS",
+    title: "API de Chamados Tickytoria",
     version: "1.0.0",
     description: "API para registro e acompanhamento de chamados",
   },

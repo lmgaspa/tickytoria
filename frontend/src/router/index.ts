@@ -3,37 +3,53 @@
   import LoginPage from '../components/LoginPage.vue'
   import RegisterPage from '../components/RegisterPage.vue'
   import DashboardPage from '../components/DashboardPage.vue'
-  import RegistrarTicket from '../components/RegistrarTickerForm.vue'
+  import RegisterTicketForm from '../components/RegisterTicketForm.vue'
   import SearchTickets from '../components/SearchTickets.vue'
+  import SearchClients from '../components/SearchClients.vue'
   import ForgotPassword from '../components/ForgotPassword.vue'
-  import SenhaEnviada from '../components/SenhaEnviada.vue'
+  import PasswordSent from '../components/PasswordSent.vue'
 import ResetPassword from '../components/ResetPassword.vue'
-import EditarTicket from '../components/EditarTicket.vue'
+import EditTicket from '../components/EditTicket.vue'
+import RegisterClientForm from '../components/RegisterClientForm.vue'
+import SearchEmployees from '../components/SearchEmployees.vue'
 
   const routes = [
     { path: '/', component: HomePage },
     { path: '/login', component: LoginPage },
     { path: '/register', component: RegisterPage },
-    { path: '/esqueci-senha', component: ForgotPassword },
-    { path: '/senha-enviada', component: SenhaEnviada },
-    { path: '/resetar-senha', component: ResetPassword},
+    { path: '/forgot-password', component: ForgotPassword },
+    { path: '/password-sent', component: PasswordSent },
+    { path: '/reset-password', component: ResetPassword},
     {
       path: '/dashboard',
       component: DashboardPage,
       meta: { requiresAuth: true }
     },
-    { path: '/registrar-ticket',
-      component: RegistrarTicket,
+    { path: '/register-ticket',
+      component: RegisterTicketForm,
       meta: { requiresAuth: true }
     },
-    { path: '/busca-nota-de-servico',
+    { path: '/register-client',
+      component: RegisterClientForm,
+      meta: { requiresAuth: true }
+    },
+    { path: '/search-ticket',
       component: SearchTickets,
       meta: { requiresAuth: true }
     },
+    { path: '/search-client',
+      component: SearchClients,
+      meta: { requiresAuth: true }
+    },
     {
-    path: '/editar-ticket/:notaServico',
-    component: EditarTicket,
+    path: '/edit-ticket/:ticketId',
+    component: EditTicket,
     props: true,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/search-employee',
+    component: SearchEmployees,
     meta: { requiresAuth: true }
   }
   ]

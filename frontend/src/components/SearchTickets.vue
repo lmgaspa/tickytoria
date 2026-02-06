@@ -1,6 +1,6 @@
 <template>
-  <div class="full-height d-flex flex-column align-items-center p-4">
-    <div class="gradient-overlay"></div>
+  <div class="full-height d-flex flex-column align-items-center p-4 position-relative">
+    <div class="page-background"></div>
 
     <div class="w-100 mb-3" style="max-width: 600px;">
       <RouterLink to="/dashboard" class="btn btn-success w-100 fw-bold rounded-pill">
@@ -9,10 +9,10 @@
     </div>
 
     <div class="card p-4 w-100" style="max-width: 600px;">
-      <h2 class="mb-4 text-center text-white">Buscar Nota de Serviço</h2>
+      <h2 class="mb-4 text-center text-gradient fw-bold">Buscar Nota de Serviço</h2>
 
       <div class="form-group mb-3">
-        <label class="form-label text-white">Buscar por:</label>
+        <label class="form-label">Buscar por:</label>
         <select v-model="searchType" class="form-select">
           <option disabled value="">Selecione</option>
           <option value="cliente">Nome do Cliente</option>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="form-group mb-3" v-if="searchType !== '' && searchType !== 'all'">
-        <label class="form-label text-white">{{ labelForType }}</label>
+        <label class="form-label">{{ labelForType }}</label>
         <input v-model="searchValue" class="form-control" :type="searchType === 'email' ? 'email' : 'text'" :placeholder="labelForType" required />
       </div>
 
@@ -37,9 +37,9 @@
     </div>
 
     <div v-if="paginatedTickets.length > 0" class="card p-4 w-100 mt-4" style="max-width: 600px;">
-      <h4 class="text-white mb-3">Resultado</h4>
+      <h4 class="mb-3">Resultado</h4>
 
-      <div v-for="ticket in paginatedTickets" :key="ticket._id" class="mb-4 p-3 bg-dark text-white rounded">
+      <div v-for="ticket in paginatedTickets" :key="ticket._id" class="mb-4 p-3 border rounded shadow-sm">
         <p><strong>Nota de Serviço:</strong> {{ ticket.notaServico }}</p>
         <p><strong>Cliente:</strong> {{ ticket.cliente }}</p>
         <p><strong>Empresa:</strong> {{ ticket.empresa }}</p>
@@ -65,8 +65,10 @@
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
+import { API_URL } from '../config';
+
 const router = useRouter()
-const baseUrl = 'https://eps-6c85169e1d63.herokuapp.com/api/tickets'
+const baseUrl = `${API_URL}/api/tickets`
 
 const searchType = ref('')
 const searchValue = ref('')
@@ -76,7 +78,7 @@ const perPage = 20
 const notFound = ref(false)
 
 const goToEdit = (ticket: any) => {
-  router.push(`/editar-ticket/${ticket.notaServico}`)
+  router.push(`/edit-ticket/${ticket.notaServico}`)
 }
 
 watch(searchValue, (val) => {
@@ -187,22 +189,14 @@ const searchTicket = async () => {
 }
 
 .gradient-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top center, #00dc82 0%, #0f0f1b 60%, #000 100%);
-  opacity: 0.3;
-  filter: blur(120px);
-  z-index: -1;
-  pointer-events: none;
+  display: none;
 }
 
 .card {
-  background-color: #1a1a2e;
-  border: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
-  color: white;
+  color: var(--text-color);
 }
 </style>

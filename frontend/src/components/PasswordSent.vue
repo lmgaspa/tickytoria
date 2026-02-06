@@ -1,14 +1,15 @@
 <template>
-  <div class="forgot-password-page d-flex align-items-center justify-content-center vh-100">
+  <div class="forgot-password-page d-flex align-items-center justify-content-center vh-100 position-relative">
+    <div class="page-background"></div>
     <div class="card p-4 shadow-lg text-center" style="width: 100%; max-width: 400px;">
-      <h2 class="text-white fw-bold mb-3">Senha redefinida</h2>
+      <h2 class="fw-bold mb-3">{{ $t('auth.resetPassword') }}</h2>
 
-      <p class="text-white fs-5 mb-4">
-        Sua nova senha foi enviada para o e-mail cadastrado com sucesso.
+      <p class="fs-5 mb-4">
+        {{ $t('auth.passwordSent') }}
       </p>
 
       <router-link to="/login" class="btn btn-warning w-100 fw-semibold rounded-pill">
-        Retornar à área de login
+        {{ $t('auth.backToLogin') }}
       </router-link>
     </div>
   </div>
@@ -19,12 +20,13 @@
 
 <style scoped>
 .forgot-password-page {
-  background: radial-gradient(circle at top, #00dc82 5%, #0f0f1b 50%, #000 100%);
+  /* background managed globally */
   padding: 1rem;
 }
 .card {
-  background-color: #1a1a2e;
-  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
 }
 

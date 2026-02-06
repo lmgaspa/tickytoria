@@ -1,11 +1,12 @@
 <template>
-  <div class="reset-password-page d-flex align-items-center justify-content-center vh-100">
+  <div class="reset-password-page d-flex align-items-center justify-content-center vh-100 position-relative">
+    <div class="page-background"></div>
     <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-      <h2 class="text-center text-white fw-bold mb-3">Redefinir senha</h2>
+      <h2 class="text-center fw-bold mb-3">Redefinir senha</h2>
 
       <form v-if="!success" @submit.prevent="submit">
         <div class="mb-3">
-          <label for="password" class="form-label text-white">Nova senha</label>
+          <label for="password" class="form-label">Nova senha</label>
           <input
             v-model="password"
             type="password"
@@ -31,7 +32,7 @@
       <p class="text-success mt-3 text-center fw-bold" v-if="success">{{ success }}</p>
       <p class="text-danger mt-3 text-center fw-bold" v-if="error">{{ error }}</p>
 
-      <router-link to="/login" class="btn btn-outline-light w-100 mt-3 rounded-pill">
+      <router-link to="/login" class="btn btn-outline-dark w-100 mt-3 rounded-pill">
         Voltar ao login
       </router-link>
     </div>
@@ -41,6 +42,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+
+import { API_URL } from '../config';
 
 const password = ref('')
 const success = ref('')
@@ -58,7 +61,7 @@ const submit = async () => {
   error.value = ''
 
   try {
-    const response = await fetch('https://eps-6c85169e1d63.herokuapp.com/api/auth/reset-password', {
+    const response = await fetch(`${API_URL}/api/auth/reset-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -79,12 +82,13 @@ const submit = async () => {
 
 <style scoped>
 .reset-password-page {
-  background: radial-gradient(circle at top, #00dc82 5%, #0f0f1b 50%, #000 100%);
+  /* background managed globally */
   padding: 1rem;
 }
 .card {
-  background-color: #1a1a2e;
-  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
 }
 </style>

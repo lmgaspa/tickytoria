@@ -1,11 +1,12 @@
 <template>
-  <div class="forgot-password-page d-flex align-items-center justify-content-center vh-100">
+  <div class="forgot-password-page d-flex align-items-center justify-content-center vh-100 position-relative">
+    <div class="page-background"></div>
     <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-      <h2 class="text-center text-white fw-bold mb-3">Esqueci minha senha</h2>
+      <h2 class="text-center fw-bold mb-3">{{ $t('auth.forgotPassword') }}</h2>
 
       <form @submit.prevent="submit">
         <div class="mb-3">
-          <label for="email" class="form-label text-white">E-mail</label>
+          <label for="email" class="form-label">{{ $t('auth.email') }}</label>
           <input
             v-model="email"
             type="email"
@@ -21,7 +22,7 @@
           class="btn btn-primary w-100 fw-semibold rounded-pill"
           :disabled="!email"
         >
-          Enviar link de recuperação
+          {{ $t('auth.sendResetLink') }}
         </button>
       </form>
 
@@ -35,6 +36,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import { API_URL } from '../config';
+
 const router = useRouter()
 
 const email = ref('')
@@ -46,7 +49,7 @@ const submit = async () => {
   error.value = ''
 
   try {
-    const response = await fetch('https://eps-6c85169e1d63.herokuapp.com/api/auth/forgot-password', {
+    const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email.value })
@@ -55,7 +58,7 @@ const submit = async () => {
     const result = await response.json()
     if (!response.ok) throw new Error(result.message || 'Erro ao enviar e-mail.')
 
-    router.push('/senha-enviada')
+    router.push('/password-sent')
   } catch (err: any) {
     error.value = err.message
   }
@@ -64,12 +67,13 @@ const submit = async () => {
 
 <style scoped>
 .forgot-password-page {
-  background: radial-gradient(circle at top, #00dc82 5%, #0f0f1b 50%, #000 100%);
+  /* background managed globally */
   padding: 1rem;
 }
 .card {
-  background-color: #1a1a2e;
-  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
 }
 

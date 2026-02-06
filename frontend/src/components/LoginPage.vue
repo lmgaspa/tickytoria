@@ -1,45 +1,52 @@
 <template>
-  <div class="login-page d-flex align-items-center justify-content-center vh-100 text-white">
-    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-      <h2 class="text-center fw-bold text-white mb-3">Entrar</h2>
+  <div class="login-page d-flex align-items-center justify-content-center vh-100 position-relative">
+    <div class="page-background"></div>
+
+    <div class="glass-card p-4 shadow-lg w-100 position-relative z-2" style="max-width: 400px;">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold mb-1 text-gradient">{{ $t('auth.login') }}</h2>
+        <p class="text-muted-light small">{{ $t('auth.email') }}</p>
+      </div>
 
       <form @submit.prevent="handleLogin">
         <div class="mb-3">
-          <label for="email" class="form-label text-white">E-mail</label>
+          <label for="email" class="form-label ms-1">{{ $t('auth.email') }}</label>
           <input
             v-model="email"
             type="email"
             id="email"
-            class="form-control"
-            placeholder="seuemail@exemplo.com"
+            class="form-control glass-input"
+            placeholder="nome@exemplo.com"
             required
           />
         </div>
 
-        <div class="mb-3 position-relative">
-          <label for="password" class="form-label text-white">Senha</label>
+        <div class="mb-4 position-relative">
+          <label for="password" class="form-label ms-1">{{ $t('auth.password') }}</label>
           <input
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
             id="password"
-            class="form-control"
-            placeholder="Digite sua senha"
+            class="form-control glass-input"
+            placeholder="••••••••"
             required
           />
           <i
-            :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"
+            :class="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"
             class="toggle-password-icon"
             @click="showPassword = !showPassword"
           ></i>
         </div>
 
-        <div class="text-end mb-3">
-          <RouterLink to="/esqueci-senha" class="text-light small">Esqueceu sua senha?</RouterLink>
-        </div>
-
-        <button type="submit" class="btn btn-success w-100 fw-semibold rounded-pill">
-          Entrar
+        <button type="submit" class="btn btn-primary-glow w-100 fw-bold rounded-pill py-2 mb-3">
+          {{ $t('auth.login') }}
         </button>
+
+        <div class="text-center">
+          <RouterLink to="/forgot-password" class="text-muted-light small text-decoration-none hover-white">
+            {{ $t('auth.forgotPassword') }}
+          </RouterLink>
+        </div>
       </form>
     </div>
   </div>
@@ -47,46 +54,57 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import router from '../router'
+import { useRouter } from 'vue-router'
 
+import { API_URL } from '../config';
+
+const router = useRouter()
 const email = ref('')
 const password = ref('')
 const showPassword = ref(false)
 
 const handleLogin = async () => {
-  const response = await fetch('https://eps-6c85169e1d63.herokuapp.com/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email.value, password: password.value })
-  })
+  try {
+    const response = await fetch(`${API_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value, password: password.value })
+    })
 
-  if (!response.ok) {
-    alert('Login inválido')
-    return
+    if (!response.ok) {
+      alert('Login inválido')
+      return
+    }
+
+    const data = await response.json()
+    localStorage.setItem('token', data.token)
+    router.push('/dashboard')
+  } catch (error) {
+    alert('Erro de conexão')
   }
-
-  const data = await response.json()
-  localStorage.setItem('token', data.token)
-  router.push('/dashboard')
 }
 </script>
 
 <style scoped>
 .login-page {
-  background: radial-gradient(circle at top, #00dc82 5%, #0f0f1b 50%, #000 100%);
-  padding: 1rem;
+  /* Background handled globally */
+  position: relative;
+  overflow: hidden;
 }
-.card {
-  background-color: #1a1a2e;
-  border: none;
-  border-radius: 1rem;
+
+.text-muted-light {
+  color: var(--text-muted);
 }
+
+.hover-white:hover {
+  color: var(--primary-color) !important;
+}
+
 .toggle-password-icon {
   position: absolute;
-  top: 38px;
-  right: 12px;
+  top: 42px;
+  right: 15px;
   cursor: pointer;
-  color: #ccc;
-  font-size: 1.2rem;
+  color: var(--text-muted);
 }
 </style>

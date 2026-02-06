@@ -5,6 +5,8 @@ export interface UserDocument extends Document {
   email: string;
   password: string;
   role: 'admin' | 'funcionário';
+  whatsapp?: string;
+  endereco?: string;
 }
 
 const UserSchema = new Schema<UserDocument>({
@@ -15,7 +17,9 @@ const UserSchema = new Schema<UserDocument>({
     type: String,
     enum: ['admin', 'funcionário'],
     default: 'funcionário'
-  }
+  },
+  whatsapp: { type: String },
+  endereco: { type: String }
 });
 
 export default mongoose.model<UserDocument>('User', UserSchema);

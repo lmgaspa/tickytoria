@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import { sendTicketEmail } from '../utils/emailService';
@@ -10,7 +10,7 @@ export const register = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, whatsapp, endereco } = req.body;
 
     if (role !== 'funcionário') {
       res.status(403).json({ message: 'Somente admin pode registrar funcionário.' });
@@ -24,20 +24,29 @@ export const register = async (
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ name, email, password: hashedPassword, role });
+    const newUser = await User.create({ 
+      name, 
+      email, 
+      password: hashedPassword, 
+      role, 
+      whatsapp, 
+      endereco 
+    });
 
     const html = `
-      <p><strong>EPS EMPREENDIMENTOS</strong></p>
+      <p><strong>Tickytoria</strong></p>
       <p>Olá <strong>Tom Passinho</strong>,</p>
       <p>O funcionário <strong>${newUser.name}</strong> foi criado com sucesso.</p>
       <p><strong>E-mail:</strong> ${newUser.email}</p>
       <p><strong>Função:</strong> ${newUser.role}</p>
+      <p><strong>WhatsApp:</strong> ${newUser.whatsapp || 'N/A'}</p>
+      <p><strong>Endereço:</strong> ${newUser.endereco || 'N/A'}</p>
     `;
 
     if (process.env.EMAIL_TO) {
       await sendTicketEmail(
         process.env.EMAIL_TO,
-        'EPS EMPREENDIMENTOS - Funcionário criado com sucesso',
+        'Tickytoria - Funcionário criado com sucesso',
         html
       );
     }
@@ -47,6 +56,8 @@ export const register = async (
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
+      whatsapp: newUser.whatsapp,
+      endereco: newUser.endereco
     });
   } catch (err) {
     next(err);

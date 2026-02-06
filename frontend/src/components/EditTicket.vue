@@ -1,17 +1,18 @@
 <template>
-  <div class="register-page d-flex align-items-center justify-content-center vh-100 text-white">
-    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 450px;">
+  <div class="d-flex align-items-center justify-content-center vh-100 position-relative">
+    <div class="page-background"></div>
+    <div class="glass-card p-4" style="width: 100%; max-width: 450px;">
       <div class="w-100 mb-3" style="max-width: 600px;">
         <RouterLink to="/dashboard" class="btn btn-primary w-100 fw-bold rounded-pill">
           ⬅️ Voltar ao menu anterior
         </RouterLink>
       </div>
 
-      <h2 class="text-center fw-bold text-white mb-3">Editar Nota de Serviço</h2>
+      <h2 class="text-center fw-bold text-gradient mb-3">Editar Nota de Serviço</h2>
 
       <form @submit.prevent="handleUpdateTicket">
         <div class="mb-2" v-for="(label, key) in fields" :key="key">
-          <label :for="key" class="form-label text-white">{{ label }}</label>
+          <label :for="key" class="form-label">{{ label }}</label>
           <input
             v-model="formData[key]"
             :type="key === 'emailEmpresa' ? 'email' : 'text'"
@@ -28,7 +29,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="descricaoServico" class="form-label text-white">Descrição do Serviço</label>
+          <label for="descricaoServico" class="form-label">Descrição do Serviço</label>
           <textarea
             v-model="formData.descricaoServico"
             id="descricaoServico"
@@ -38,8 +39,8 @@
           ></textarea>
         </div>
 
-        <button type="submit" class="btn btn-warning w-100 fw-semibold rounded-pill">
-          Atualizar Nota de Serviço
+        <button type="submit" class="btn btn-warning w-100 fw-semibold rounded-pill" :disabled="isUpdating">
+          {{ isUpdating ? 'Atualizando...' : 'Atualizar Nota de Serviço' }}
         </button>
       </form>
     </div>
@@ -49,6 +50,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { API_URL } from '../config';
 
 const route = useRoute()
 const router = useRouter()
@@ -65,6 +67,8 @@ const formData = ref<any>({
   emailEmpresa: '',
   descricaoServico: '',
 })
+
+const isUpdating = ref(false)
 
 const fields: Record<string, string> = {
   cliente: 'Cliente',
@@ -106,7 +110,7 @@ const onWhatsappInput = () => {
 
 const fetchTicket = async () => {
   try {
-    const response = await fetch(`https://eps-6c85169e1d63.herokuapp.com/api/tickets/nota/${encodeURIComponent(notaServico)}`, {
+    const response = await fetch(`${API_URL}/api/tickets/nota/${encodeURIComponent(notaServico)}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     const data = await response.json()
@@ -119,10 +123,12 @@ const fetchTicket = async () => {
 
 const handleUpdateTicket = async () => {
   if (!token) {
-    alert('Você precisa estar logado para atualizar.')
     router.push('/login')
     return
   }
+
+  if (isUpdating.value) return
+  isUpdating.value = true
 
   const updatedFields: any = {}
   for (const key in formData.value) {
@@ -135,7 +141,7 @@ const handleUpdateTicket = async () => {
   }
 
   try {
-    const response = await fetch(`https://eps-6c85169e1d63.herokuapp.com/api/tickets/nota/${notaServico}`, {
+    const response = await fetch(`${API_URL}/api/tickets/nota/${notaServico}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -154,6 +160,8 @@ const handleUpdateTicket = async () => {
     router.push('/dashboard')
   } catch (err) {
     alert('Erro ao tentar atualizar.')
+  } finally {
+    isUpdating.value = false
   }
 }
 
@@ -164,13 +172,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.register-page {
-  background: radial-gradient(circle at top, #00dc82 5%, #0f0f1b 50%, #000 100%);
-  padding: 1rem;
-}
-.card {
-  background-color: #1a1a2e;
-  border: none;
-  border-radius: 1rem;
-}
+/* Scoped styles removed in favor of global .glass-card */
 </style>
