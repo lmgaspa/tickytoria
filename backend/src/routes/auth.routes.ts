@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { login, register } from '../controllers/auth.controller'
+import { login, register, deleteUser } from '../controllers/auth.controller'
 import { verifyToken } from '../middlewares/auth.middleware'
 import { isAdmin } from '../middlewares/isAdmin'
 import { getProfile } from '../controllers/profile.controller'
@@ -18,5 +18,6 @@ router.post('/reset-password', resetPassword)
 // Rotas protegidas
 router.post('/register', verifyToken, isAdmin, register)
 router.get('/profile', verifyToken, getProfile)
+router.delete('/delete/:email', verifyToken, isAdmin, deleteUser)
 
 export default router

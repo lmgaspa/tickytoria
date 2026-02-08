@@ -5,18 +5,18 @@
     <!-- Botão de voltar fixo -->
     <div class="w-100 mt-3 px-3 position-relative text-center" style="max-width: 600px; z-index: 1;">
       <RouterLink to="/dashboard" class="btn btn-success fw-bold rounded-pill px-4 btn-sm">
-        ⬅️ Voltar ao menu anterior
+        {{ $t('common.back') }}
       </RouterLink>
     </div>
 
     <!-- Botão de início do cadastro (aparece só na etapa 0) -->
     <div v-if="startStep === 0" class="mt-2 text-center position-relative" style="z-index: 1;">
-      <button class="btn btn-warning fw-bold px-4 rounded-pill btn-sm" @click="startStep = 1">Iniciar Cadastro</button>
+      <button class="btn btn-warning fw-bold px-4 rounded-pill btn-sm" @click="startStep = 1">{{ $t('ticket.startRegister') }}</button>
     </div>
 
     <!-- Etapa 1 -->
     <div v-if="startStep === 1" class="glass-card p-4 mt-3 w-100 position-relative" style="max-width: 600px; z-index: 1;">
-      <h6 class="mb-3 text-center fw-bold">Você quer usar CPF ou CNPJ?</h6>
+      <h6 class="mb-3 text-center fw-bold">{{ $t('ticket.useCPFOrCNPJ') }}</h6>
       <div class="d-flex justify-content-around">
         <button class="btn btn-warning btn-sm px-4" @click="selectCpfCnpj('cpf')">CPF</button>
         <button class="btn btn-warning btn-sm px-4" @click="selectCpfCnpj('cnpj')">CNPJ</button>
@@ -24,71 +24,71 @@
     </div>
 
     <div v-if="startStep === 2" class="glass-card p-4 w-100 mt-3 position-relative" style="max-width: 600px; z-index: 1;">
-      <h6 class="mb-3 text-center fw-bold">Você quer usar telefone ou WhatsApp?</h6>
+      <h6 class="mb-3 text-center fw-bold">{{ $t('ticket.usePhoneOrWhatsApp') }}</h6>
       <div class="d-flex justify-content-around">
-        <button class="btn btn-warning btn-sm px-4" @click="selectContact('telefone')">Telefone</button>
-        <button class="btn btn-warning btn-sm px-4" @click="selectContact('whatsapp')">WhatsApp</button>
+        <button class="btn btn-warning btn-sm px-4" @click="selectContact('telefone')">{{ $t('ticket.phone') }}</button>
+        <button class="btn btn-warning btn-sm px-4" @click="selectContact('whatsapp')">{{ $t('ticket.whatsapp') }}</button>
       </div>
     </div>
 
     <form v-if="startStep === 3" @submit.prevent="handleSubmit" class="glass-card p-4 border rounded shadow-sm w-100 mt-3 position-relative" style="max-width: 800px; z-index: 1;">
-      <h4 class="mb-3 text-center text-gradient fw-bold">Cadastrar Cliente</h4>
+      <h4 class="mb-3 text-center text-gradient fw-bold">{{ $t('client.register') }}</h4>
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <div v-if="selectedCpfCnpj === 'cpf'" class="form-group">
             <label for="cpf" class="form-label small mb-1">CPF</label>
             <input type="text" class="form-control form-control-sm" id="cpf" v-model="client.cpf" @input="onCpfInput" maxlength="14" required />
-            <small v-if="client.cpf && !isCpfValid" class="text-danger small-text">CPF inválido</small>
+            <small v-if="client.cpf && !isCpfValid" class="text-danger small-text">{{ $t('ticket.invalidCPF') }}</small>
           </div>
 
           <div v-if="selectedCpfCnpj === 'cnpj'" class="form-group">
             <label for="cnpj" class="form-label small mb-1">CNPJ</label>
             <input type="text" class="form-control form-control-sm" id="cnpj" v-model="client.cnpj" @input="onCnpjInput" maxlength="18" required />
-            <small v-if="client.cnpj && !isCnpjValid" class="text-danger small-text">CNPJ inválido</small>
+            <small v-if="client.cnpj && !isCnpjValid" class="text-danger small-text">{{ $t('ticket.invalidCNPJ') }}</small>
           </div>
         </div>
 
         <div class="col-md-6 mb-2">
           <div v-if="selectedContact === 'telefone'" class="form-group">
-            <label for="telefone" class="form-label small mb-1">Telefone</label>
+            <label for="telefone" class="form-label small mb-1">{{ $t('ticket.phone') }}</label>
             <input type="tel" class="form-control form-control-sm" id="telefone" v-model="client.telefone" @input="onTelefoneInput" maxlength="15" placeholder="(00)00000-0000" required />
-            <small v-if="client.telefone && client.telefone.length < 13" class="text-danger small-text">Inválido</small>
+            <small v-if="client.telefone && client.telefone.length < 13" class="text-danger small-text">{{ $t('ticket.invalidPhone') }}</small>
           </div>
 
           <div v-if="selectedContact === 'whatsapp'" class="form-group">
-            <label for="whatsapp" class="form-label small mb-1">WhatsApp</label>
+            <label for="whatsapp" class="form-label small mb-1">{{ $t('ticket.whatsapp') }}</label>
             <input type="tel" class="form-control form-control-sm" id="whatsapp" v-model="client.whatsapp" @input="onWhatsappInput" maxlength="15" placeholder="(00)00000-0000" required />
-            <small v-if="client.whatsapp && client.whatsapp.length < 14" class="text-danger small-text">Inválido</small>
+            <small v-if="client.whatsapp && client.whatsapp.length < 14" class="text-danger small-text">{{ $t('ticket.invalidPhone') }}</small>
           </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-6 mb-2">
-          <label for="nome" class="form-label small mb-1">Nome do Cliente</label>
+          <label for="nome" class="form-label small mb-1">{{ $t('client.name') }}</label>
           <input type="text" class="form-control form-control-sm" id="nome" v-model="client.name" @input="validateForm" required />
         </div>
 
         <div class="col-md-6 mb-2">
-          <label for="empresa" class="form-label small mb-1">Empresa</label>
+          <label for="empresa" class="form-label small mb-1">{{ $t('client.company') }}</label>
           <input type="text" class="form-control form-control-sm" id="empresa" v-model="client.empresa" @input="validateForm" required />
         </div>
       </div>
 
       <div class="form-group mb-2">
-        <label for="emailEmpresa" class="form-label small mb-1">Email (opcional)</label>
+        <label for="emailEmpresa" class="form-label small mb-1">{{ $t('ticket.email') }}</label>
         <input type="email" class="form-control form-control-sm" id="emailEmpresa" v-model="client.emailEmpresa" @input="validateForm" />
-        <small v-if="client.emailEmpresa && !isEmailValid" class="text-danger small-text">Email inválido</small>
+        <small v-if="client.emailEmpresa && !isEmailValid" class="text-danger small-text">{{ $t('ticket.invalidEmail') }}</small>
       </div>
 
       <div class="form-group mb-3">
-        <label for="endereco" class="form-label small mb-1">Endereço</label>
+        <label for="endereco" class="form-label small mb-1">{{ $t('employee.address') }}</label>
         <textarea class="form-control form-control-sm" id="endereco" v-model="client.endereco" @input="validateForm" rows="2" required></textarea>
       </div>
 
       <button type="submit" class="btn btn-primary w-100 custom-btn hover-green btn-sm fw-bold" :disabled="!formValidation() || isLoading">
-        {{ isLoading ? 'Enviando...' : 'Registrar Cliente' }}
+        {{ isLoading ? $t('common.loading') : $t('client.register') }}
       </button>
     </form>
   </div>

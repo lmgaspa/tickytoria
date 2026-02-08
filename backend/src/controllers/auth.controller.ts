@@ -104,3 +104,31 @@ export const login = async (
     next(err);
   }
 };
+
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { email } = req.params;
+
+    const userToDelete = await User.findOne({ email });
+
+    if (!userToDelete) {
+      res.status(404).json({ message: 'Usuário não encontrado.' });
+      return;
+    }
+
+    if (userToDelete.role === 'admin') {
+      res.status(403).json({ message: 'Não é possível deletar um administrador.' });
+      return;
+    }
+
+    await User.findByIdAndDelete(userToDelete._id);
+
+    res.status(200).json({ message: 'Usuário deletado com sucesso.' });
+  } catch (err) {
+    next(err);
+  }
+};

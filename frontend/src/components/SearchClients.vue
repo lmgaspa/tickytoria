@@ -4,25 +4,25 @@
 
     <div class="w-100 mb-3" style="max-width: 600px;">
       <RouterLink to="/dashboard" class="btn btn-success w-100 fw-bold rounded-pill">
-        ⬅️ Voltar ao menu anterior
+        {{ $t('common.back') }}
       </RouterLink>
     </div>
 
     <div class="card p-4 w-100" style="max-width: 600px;">
-      <h2 class="mb-4 text-center text-gradient fw-bold">Buscar Cliente</h2>
+      <h2 class="mb-4 text-center text-gradient fw-bold">{{ $t('client.search') }}</h2>
 
       <div class="form-group mb-3">
-        <label class="form-label">Buscar por:</label>
+        <label class="form-label">{{ $t('client.searchBy') }}</label>
         <select v-model="searchType" class="form-select">
-          <option disabled value="">Selecione</option>
-          <option value="name">Nome do Cliente</option>
-          <option value="empresa">Empresa</option>
+          <option disabled value="">{{ $t('employee.selectOption') }}</option>
+          <option value="name">{{ $t('client.name') }}</option>
+          <option value="empresa">{{ $t('client.company') }}</option>
           <option value="cpf">CPF</option>
           <option value="cnpj">CNPJ</option>
-          <option value="whatsapp">WhatsApp</option>
-          <option value="telefone">Telefone</option>
-          <option value="email">E-mail</option>
-          <option value="all">Todos os Clientes</option>
+          <option value="whatsapp">{{ $t('ticket.whatsapp') }}</option>
+          <option value="telefone">{{ $t('ticket.phone') }}</option>
+          <option value="email">{{ $t('employee.email') }}</option>
+          <option value="all">{{ $t('client.allClients') }}</option>
         </select>
       </div>
 
@@ -31,30 +31,30 @@
         <input v-model="searchValue" class="form-control" :type="searchType === 'email' ? 'email' : 'text'" :placeholder="labelForType" required />
       </div>
 
-      <button class="btn btn-warning w-100" @click="searchClient">Buscar</button>
-      <p class="text-danger text-center mt-3 fw-bold" v-if="notFound">{{ notFoundMessage }}</p>
+      <button class="btn btn-warning w-100" @click="searchClient">{{ $t('client.searchButton') }}</button>
+      <p class="text-danger text-center mt-3 fw-bold" v-if="notFound">{{ $t('client.noResults') }}</p>
     </div>
 
     <div v-if="paginatedClients.length > 0" class="card p-4 w-100 mt-4" style="max-width: 600px;">
-      <h4 class="mb-3">Resultado</h4>
+      <h4 class="mb-3">{{ $t('employee.results') }}</h4>
 
       <div v-for="client in paginatedClients" :key="client._id" class="mb-4 p-3 border rounded shadow-sm">
-        <p><strong>Nome:</strong> {{ client.name }}</p>
-        <p><strong>Empresa:</strong> {{ client.empresa }}</p>
+        <p><strong>{{ $t('client.name') }}:</strong> {{ client.name }}</p>
+        <p><strong>{{ $t('client.company') }}:</strong> {{ client.empresa }}</p>
         <p><strong>CPF:</strong> {{ client.cpf }}</p>
         <p><strong>CNPJ:</strong> {{ client.cnpj }}</p>
-        <p><strong>WhatsApp:</strong> {{ client.whatsapp }}</p>
-        <p><strong>Telefone:</strong> {{ client.telefone }}</p>
-        <p><strong>Email:</strong> {{ client.emailEmpresa }}</p>
-        <p><strong>Endereço:</strong> {{ client.endereco }}</p>
+        <p><strong>{{ $t('ticket.whatsapp') }}:</strong> {{ client.whatsapp }}</p>
+        <p><strong>{{ $t('ticket.phone') }}:</strong> {{ client.telefone }}</p>
+        <p><strong>{{ $t('employee.email') }}:</strong> {{ client.emailEmpresa }}</p>
+        <p><strong>{{ $t('employee.address') }}:</strong> {{ client.endereco }}</p>
 
         <!-- Placeholder for future edit functionality if needed -->
-        <!-- <button class="btn btn-primary btn-sm mt-2" @click="goToEdit(client)">Editar</button> -->
+        <!-- <button class="btn btn-primary btn-sm mt-2" @click="goToEdit(client)">{{ $t('common.edit') }}</button> -->
       </div>
 
       <div class="d-flex justify-content-between mt-3" v-if="totalPages > 1">
-        <button class="btn btn-outline-light" :disabled="page === 1" @click="page--">⬅️ Anterior</button>
-        <button class="btn btn-outline-light" :disabled="page === totalPages" @click="page++">Próxima ➔</button>
+        <button class="btn btn-outline-light" :disabled="page === 1" @click="page--">{{ $t('common.previous') }}</button>
+        <button class="btn btn-outline-light" :disabled="page === totalPages" @click="page++">{{ $t('common.next') }}</button>
       </div>
     </div>
   </div>
@@ -63,6 +63,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 import { API_URL } from '../config';
 
@@ -96,15 +97,17 @@ watch(searchType, () => {
   searchValue.value = ''
 })
 
+const { t } = useI18n()
+
 const labelForType = computed(() => {
   switch (searchType.value) {
-    case 'name': return 'Nome do Cliente'
-    case 'empresa': return 'Empresa'
+    case 'name': return t('client.name')
+    case 'empresa': return t('client.company')
     case 'cpf': return 'CPF'
     case 'cnpj': return 'CNPJ'
-    case 'whatsapp': return 'WhatsApp'
-    case 'telefone': return 'Telefone'
-    case 'email': return 'E-mail'
+    case 'whatsapp': return t('ticket.whatsapp')
+    case 'telefone': return t('ticket.phone')
+    case 'email': return t('employee.email')
     default: return ''
   }
 })

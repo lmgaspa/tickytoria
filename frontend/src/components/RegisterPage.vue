@@ -77,12 +77,32 @@
         Registrar Funcionário
       </button>
     </form>
+
+    <!-- Seção de Deletar Usuário -->
+    <div class="glass-card p-4 border rounded shadow-sm w-100 mt-4 position-relative" style="max-width: 800px; z-index: 1; border-color: rgba(255, 0, 0, 0.3) !important;">
+      <h4 class="mb-3 text-center text-danger fw-bold">{{ $t('deleteUser.title') }}</h4>
+      <p class="text-center small text-muted mb-3">{{ $t('deleteUser.warning') }}</p>
+      
+      <div class="row align-items-end">
+        <div class="col-md-8 mb-2">
+          <label for="deleteEmail" class="form-label small mb-1">{{ $t('deleteUser.emailLabel') }}</label>
+          <input v-model="deleteEmail" type="email" id="deleteEmail" class="form-control form-control-sm" :placeholder="$t('deleteUser.placeholder')" />
+        </div>
+        <div class="col-md-4 mb-2">
+           <button @click="handleDeleteUser" class="btn btn-danger w-100 btn-sm fw-bold">
+            <i class="bi bi-trash-fill me-1"></i> {{ $t('deleteUser.button') }}
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const name = ref('')
 const email = ref('')
@@ -159,6 +179,50 @@ const handleRegister = async () => {
   } catch (error) {
     console.error(error)
     alert('Erro ao tentar registrar funcionário.')
+  }
+}
+
+// Lógica de Deletar Usuário
+const deleteEmail = ref('')
+const { t } = useI18n()
+
+const handleDeleteUser = async () => {
+  if (!deleteEmail.value) {
+    alert(t('deleteUser.emailRequired'))
+    return
+  }
+
+  const confirmDelete = confirm(t('deleteUser.confirm', { email: deleteEmail.value }))
+  if (!confirmDelete) return
+
+  const token = localStorage.getItem('token')
+  if (!token) {
+    alert('Você precisa estar logado como administrador.')
+    router.push('/login')
+    return
+  }
+
+  try {
+     const response = await fetch(`http://localhost:10000/api/auth/delete/${deleteEmail.value}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      alert(data.message || t('deleteUser.error'))
+      return
+    }
+
+    alert(t('deleteUser.success'))
+    deleteEmail.value = '' // Limpar campo
+  } catch (error) {
+    console.error(error)
+    alert(t('deleteUser.error'))
   }
 }
 </script>

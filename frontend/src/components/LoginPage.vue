@@ -16,7 +16,7 @@
             type="email"
             id="email"
             class="form-control glass-input"
-            placeholder="nome@exemplo.com"
+            placeholder="name@exemplo.com"
             required
           />
         </div>
