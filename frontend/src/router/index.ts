@@ -51,6 +51,11 @@ import SearchEmployees from '../components/SearchEmployees.vue'
     path: '/search-employee',
     component: SearchEmployees,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/delete-employee',
+    component: () => import('../components/DeleteEmployee.vue'),
+    meta: { requiresAuth: true }
   }
   ]
 
@@ -70,3 +75,4 @@ import SearchEmployees from '../components/SearchEmployees.vue'
   })
 
   export default router
+  // Forced update

@@ -160,6 +160,17 @@
     "invalidEmail": "Correo inválido",
     "invalidPhone": "Inválido"
   },
+  "deleteUser": {
+    "title": "Eliminar Empleado",
+    "warning": "ADVERTENCIA: Esta acción es irreversible. Al eliminar un empleado, perderá el acceso inmediatamente.",
+    "emailLabel": "Correo del empleado a eliminar",
+    "placeholder": "Ingrese el correo del empleado",
+    "button": "Eliminar Empleado",
+    "emailRequired": "Por favor, ingrese el correo para eliminar.",
+    "confirm": "¿Está seguro de que desea eliminar al usuario {email}? Esta acción no se puede deshacer.",
+    "success": "Usuario eliminado con éxito.",
+    "error": "Error al eliminar usuario."
+  },
   "common": {
     "back": "⬅️ Volver al menú anterior",
     "previous": "⬅️ Anterior",

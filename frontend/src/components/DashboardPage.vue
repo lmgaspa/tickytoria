@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-page d-flex flex-column justify-content-center align-items-center vh-100 position-relative">
+  <div class="dashboard-page d-flex flex-column align-items-center min-vh-100 position-relative py-5">
     <div class="page-background"></div>
 
     <div class="content position-relative z-2 text-center w-100" style="max-width: 900px;">
@@ -73,6 +73,17 @@
           </div>
         </div>
 
+        <!-- Card: Deletar Funcionário (Admin) -->
+        <div v-if="isAdmin" class="col-md-6 col-lg-3">
+          <div class="glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer bg-danger-soft" @click="goToDeletarFuncionario">
+            <div class="icon-circle mb-3 bg-red-glow">
+              <i class="bi bi-trash-fill fs-3 text-white"></i>
+            </div>
+            <h5 class="fw-bold mb-1">{{ $t('deleteUser.title') }}</h5>
+            <span class="small text-muted-light">{{ $t('deleteUser.warning') }}</span>
+          </div>
+        </div>
+
         <!-- Card: Sair -->
         <div class="col-md-6 col-lg-3">
           <div class="glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer bg-danger-soft" @click="logout">
@@ -124,6 +135,7 @@ const goToRegistrarCliente = () => router.push('/register-client')
 const goToBuscarCliente = () => router.push('/search-client')
 const goToRegistrarFuncionario = () => router.push('/register')
 const goToBuscarFuncionario = () => router.push('/search-employee')
+const goToDeletarFuncionario = () => router.push('/delete-employee')
 const logout = () => {
   localStorage.removeItem('token')
   router.push('/login')
@@ -133,7 +145,7 @@ const logout = () => {
 <style scoped>
 .dashboard-page {
   background-color: var(--bg-color);
-  overflow: hidden;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .text-muted-light {
