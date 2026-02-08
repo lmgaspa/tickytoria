@@ -152,7 +152,7 @@ const handleRegister = async () => {
       return
     }
 
-    const response = await fetch('http://localhost:10000/api/auth/register', {
+    const response = await fetch('https://tickytoria-d1c0ff69e067.herokuapp.com/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -203,7 +203,7 @@ const handleDeleteUser = async () => {
   }
 
   try {
-     const response = await fetch(`http://localhost:10000/api/auth/delete/${deleteEmail.value}`, {
+     const response = await fetch(`https://tickytoria-d1c0ff69e067.herokuapp.com/api/auth/delete/${deleteEmail.value}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
