@@ -12,7 +12,7 @@
             type="email"
             id="email"
             class="form-control"
-            placeholder="Digite seu e-mail"
+            :placeholder="$t('auth.emailPlaceholder')"
             required
           />
         </div>
@@ -49,16 +49,32 @@ const submit = async () => {
   error.value = ''
 
   try {
+    const locale = localStorage.getItem('locale') || 'pt-BR'
+    const lang = locale.split('-')[0] // 'pt', 'en', 'es'
+
     const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value })
+      body: JSON.stringify({ email: email.value, lang })
     })
 
     const result = await response.json()
     if (!response.ok) throw new Error(result.message || 'Erro ao enviar e-mail.')
 
-    router.push('/password-sent')
+    // Success logic
+    const maskedEmail = result.maskedEmail || email.value
+    success.value = `E-mail enviado para ${maskedEmail}. Verifique sua caixa de spam.`
+    
+    // Countdown
+    let seconds = 5
+    const interval = setInterval(() => {
+      seconds--
+      if (seconds <= 0) {
+        clearInterval(interval)
+        router.push('/login')
+      }
+    }, 1000)
+    
   } catch (err: any) {
     error.value = err.message
   }

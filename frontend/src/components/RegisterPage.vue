@@ -108,8 +108,8 @@ const handleRegister = async () => {
     return
   }
 
-  if (password.value.length < 6) {
-    alert('A senha deve ter no mínimo 6 caracteres.')
+  if (password.value.length < 8) {
+    alert('A senha deve ter no mínimo 8 caracteres.')
     return
   }
 

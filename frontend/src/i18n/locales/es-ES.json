@@ -70,7 +70,11 @@
     "resetPassword": "Restablecer Contraseña",
     "sendResetLink": "Enviar enlace de recuperación",
     "passwordSent": "¡Correo enviado! Verifique su bandeja de entrada.",
-    "backToLogin": "Volver al inicio de sesión"
+    "backToLogin": "Volver al inicio de sesión",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "newPassword": "Nueva contraseña",
+    "newPasswordPlaceholder": "Ingrese su nueva contraseña",
+    "passwordMinLength": "La contraseña debe tener al menos 8 caracteres."
   },
   "dashboard": {
     "welcome": "Bienvenido",

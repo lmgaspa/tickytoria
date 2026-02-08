@@ -17,7 +17,7 @@ import { pathToFileURL } from 'url';
     origin: [
       'http://localhost:5173',           // Vite
       'http://localhost:8080',           // Vue CLI
-      'https://eps-emprendimentos.vercel.app' // Produção
+      'https://www.tickytoria.com' // Produção
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

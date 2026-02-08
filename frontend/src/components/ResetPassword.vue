@@ -2,21 +2,21 @@
   <div class="reset-password-page d-flex align-items-center justify-content-center vh-100 position-relative">
     <div class="page-background"></div>
     <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-      <h2 class="text-center fw-bold mb-3">Redefinir senha</h2>
+      <h2 class="text-center fw-bold mb-3">{{ $t('auth.resetPassword') }}</h2>
 
       <form v-if="!success" @submit.prevent="submit">
         <div class="mb-3">
-          <label for="password" class="form-label">Nova senha</label>
+          <label for="password" class="form-label">{{ $t('auth.newPassword') }}</label>
           <input
             v-model="password"
             type="password"
             id="password"
             class="form-control"
-            placeholder="Digite sua nova senha"
+            :placeholder="$t('auth.newPasswordPlaceholder')"
             required
           />
           <small v-if="password.length > 0 && password.length < 8" class="text-danger">
-            A senha deve ter no mínimo 8 caracteres.
+            {{ $t('auth.passwordMinLength') }}
           </small>
         </div>
 
@@ -25,7 +25,7 @@
           class="btn btn-primary w-100 fw-semibold rounded-pill"
           :disabled="password.length < 8"
         >
-          Redefinir senha
+          {{ $t('auth.resetPassword') }}
         </button>
       </form>
 
@@ -41,9 +41,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import { API_URL } from '../config';
+
+const router = useRouter()
 
 const password = ref('')
 const success = ref('')
@@ -60,6 +62,11 @@ const submit = async () => {
   success.value = ''
   error.value = ''
 
+  if (password.value.length < 8) {
+    error.value = 'A senha deve ter no mínimo 8 caracteres.'
+    return
+  }
+
   try {
     const response = await fetch(`${API_URL}/api/auth/reset-password`, {
       method: 'POST',
@@ -74,6 +81,10 @@ const submit = async () => {
     if (!response.ok) throw new Error(result.message || 'Erro ao redefinir a senha.')
 
     success.value = result.message || 'Senha redefinida com sucesso!'
+    
+    setTimeout(() => {
+      router.push('/login')
+    }, 2000)
   } catch (err: any) {
     error.value = err.message
   }

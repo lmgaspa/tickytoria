@@ -70,7 +70,11 @@
     "resetPassword": "Reset Password",
     "sendResetLink": "Send Reset Link",
     "passwordSent": "Email sent! Check your inbox.",
-    "backToLogin": "Back to Login"
+    "backToLogin": "Back to Login",
+    "emailPlaceholder": "Enter your email",
+    "newPassword": "New password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "passwordMinLength": "Password must be at least 8 characters."
   },
   "dashboard": {
     "welcome": "Welcome",

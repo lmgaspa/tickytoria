@@ -1,13 +1,14 @@
 export const swaggerDocs = {
   openapi: "3.0.0",
   info: {
-    title: "API de Chamados Tickytoria",
+    title: "Tickytoria ERP API",
     version: "1.0.0",
-    description: "API para registro e acompanhamento de chamados",
+    description: "Comprehensive API documentation for Tickytoria ERP system, including Tickets, Clients, and Employee management.",
   },
   servers: [
-    { url: "https://eps-6c85169e1d63.herokuapp.com" },
-    { url: "https://eps-emprendimentos.vercel.app" },
+    { url: "https://tickytoria-d1c0ff69e067.herokuapp.com", description: "Heroku Production" },
+    { url: "https://www.tickytoria.com", description: "Custom Domain Production" },
+    { url: "http://localhost:5000", description: "Local Development" },
   ],
   components: {
     securitySchemes: {
@@ -18,18 +19,20 @@ export const swaggerDocs = {
       },
     },
     schemas: {
+      // --- TICKETS ---
       TicketInput: {
         type: "object",
         required: ["cliente", "empresa", "descricaoServico"],
         properties: {
-          cliente: { type: "string", example: "João da Silva" },
-          empresa: { type: "string", example: "Empresa XYZ LTDA" },
+          cliente: { type: "string", example: "John Doe" },
+          empresa: { type: "string", example: "Acme Corp" },
           cpf: { type: "string", example: "123.456.789-00" },
           cnpj: { type: "string", example: "12.345.678/0001-99" },
-          emailEmpresa: { type: "string", example: "contato@empresa.com" },
-          telefone: { type: "string", example: "(71)3212-1229" },
-          whatsapp: { type: "string", example: "(73)99410-5740" },
-          descricaoServico: { type: "string", example: "Erro na geração de relatórios" },
+          emailEmpresa: { type: "string", example: "contact@acme.com" },
+          telefone: { type: "string", example: "+5511999999999" },
+          whatsapp: { type: "string", example: "+5511999999999" },
+          descricaoServico: { type: "string", example: "Software installation assistance" },
+          lang: { type: "string", enum: ["en", "pt", "es"], default: "pt", description: "Email notification language" },
         },
       },
       TicketOutput: {
@@ -58,161 +61,211 @@ export const swaggerDocs = {
           cnpj: { type: "string" },
         },
       },
+      // --- CLIENTS ---
+      ClientInput: {
+        type: "object",
+        required: ["name", "empresa", "endereco"],
+        properties: {
+          name: { type: "string", example: "Alice Smith" },
+          empresa: { type: "string", example: "Alice's Bakery" },
+          cpf: { type: "string", example: "987.654.321-00" },
+          cnpj: { type: "string", example: "99.888.777/0001-66" },
+          emailEmpresa: { type: "string", example: "alice@bakery.com" },
+          telefone: { type: "string", example: "+557133334444" },
+          whatsapp: { type: "string", example: "+5571988887777" },
+          endereco: { type: "string", example: "123 Sugar St, Sweet City" },
+          lang: { type: "string", enum: ["en", "pt", "es"], default: "pt", description: "Email notification language" },
+        },
+      },
+      ClientOutput: {
+        allOf: [
+          { $ref: "#/components/schemas/ClientInput" },
+          {
+            type: "object",
+            properties: {
+              _id: { type: "string", example: "775f7cba1e4f230d58bfa2ff" },
+              createdAt: { type: "string", example: "2025-06-17 10:00" },
+            },
+          },
+        ],
+      },
+      // --- USERS (EMPLOYEES) ---
+      UserInput: {
+        type: "object",
+        required: ["name", "email", "password"],
+        properties: {
+          name: { type: "string", example: "Bob Manager" },
+          email: { type: "string", example: "bob@tickytoria.com" },
+          password: { type: "string", example: "securePassword123" },
+          role: { type: "string", enum: ["admin", "funcionário"], default: "funcionário" },
+          whatsapp: { type: "string", example: "+5511977776666" },
+          endereco: { type: "string", example: "456 Office Rd, Work City" },
+          lang: { type: "string", enum: ["en", "pt", "es"], default: "pt", description: "Email notification language" },
+        },
+      },
+      UserOutput: {
+        type: "object",
+        properties: {
+          _id: { type: "string", example: "885f7cba1e4f230d58bfa3bb" },
+          name: { type: "string" },
+          email: { type: "string" },
+          role: { type: "string" },
+          whatsapp: { type: "string" },
+          endereco: { type: "string" },
+        },
+      },
     },
   },
   security: [{ bearerAuth: [] }],
   tags: [
-    { name: "Tickets", description: "Gerenciamento de chamados" },
-    { name: "Autenticação", description: "Login e registro de usuários" },
+    { name: "Authentication", description: "Authorization and User Registration" },
+    { name: "Tickets", description: "Service Order (Nota de Serviço) management" },
+    { name: "Clients", description: "Client relationship management" },
+    { name: "Users", description: "Internal Employee management and search" },
   ],
   paths: {
-    "/api/tickets": {
+    // --- AUTHENTICATION ---
+    "/api/auth/login": {
       post: {
-        tags: ["Tickets"],
-        summary: "Cria um novo ticket",
+        tags: ["Authentication"],
+        summary: "User login",
+        description: "Returns a JWT token for valid credentials.",
+        requestBody: {
+          required: true,
+          content: { "application/json": { schema: { type: "object", properties: { email: { type: "string" }, password: { type: "string" } } } } },
+        },
+        responses: {
+          200: { description: "Successful login", content: { "application/json": { schema: { type: "object", properties: { token: { type: "string" } } } } } },
+          401: { description: "Invalid credentials" },
+        },
+      },
+    },
+    "/api/auth/register": {
+      post: {
+        tags: ["Authentication"],
+        summary: "Register new employee (Admin only)",
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
-          content: {
-            "application/json": {
-              schema: { $ref: "#/components/schemas/TicketInput" },
-            },
-          },
+          content: { "application/json": { schema: { $ref: "#/components/schemas/UserInput" } } },
         },
         responses: {
-          201: {
-            description: "Ticket criado com sucesso",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/TicketOutput" },
-              },
-            },
-          },
+          201: { description: "Employee registered successfully", content: { "application/json": { schema: { $ref: "#/components/schemas/UserOutput" } } } },
+          403: { description: "Forbidden - Admin access required" },
+          409: { description: "User already exists" },
+        },
+      },
+    },
+
+    // --- TICKETS ---
+    "/api/tickets": {
+      post: {
+        tags: ["Tickets"],
+        summary: "Create a new service ticket",
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: { "application/json": { schema: { $ref: "#/components/schemas/TicketInput" } } },
+        },
+        responses: {
+          201: { description: "Ticket created successfully", content: { "application/json": { schema: { $ref: "#/components/schemas/TicketOutput" } } } },
         },
       },
     },
     "/api/tickets/all": {
       get: {
         tags: ["Tickets"],
-        summary: "Lista todos os tickets",
+        summary: "List all tickets",
         security: [{ bearerAuth: [] }],
         responses: {
-          200: {
-            description: "Tickets retornados com sucesso",
-            content: {
-              "application/json": {
-                schema: {
-                  type: "array",
-                  items: { $ref: "#/components/schemas/TicketOutput" },
-                },
-              },
-            },
-          },
+          200: { description: "List of tickets", content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/TicketOutput" } } } } },
         },
       },
     },
-    "/api/tickets/{campo}/{valor}": {
-      put: {
+    "/api/tickets/nota/{notaServico}": {
+      get: {
         tags: ["Tickets"],
-        summary: "Atualiza ticket por campo (total)",
+        summary: "Get ticket by Service Note ID",
         security: [{ bearerAuth: [] }],
-        parameters: [
-          { name: "campo", in: "path", required: true, schema: { type: "string" } },
-          { name: "valor", in: "path", required: true, schema: { type: "string" } }
-        ],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: { $ref: "#/components/schemas/TicketUpdate" },
-            },
-          },
-        },
+        parameters: [{ name: "notaServico", in: "path", required: true, schema: { type: "string" } }],
         responses: {
-          200: { description: "Ticket atualizado com sucesso" },
-          404: { description: "Ticket não encontrado" },
+          200: { description: "Ticket details", content: { "application/json": { schema: { $ref: "#/components/schemas/TicketOutput" } } } },
+          404: { description: "Ticket not found" },
         },
       },
       patch: {
         tags: ["Tickets"],
-        summary: "Atualiza ticket por campo (parcial)",
+        summary: "Partially update ticket",
         security: [{ bearerAuth: [] }],
-        parameters: [
-          { name: "campo", in: "path", required: true, schema: { type: "string" } },
-          { name: "valor", in: "path", required: true, schema: { type: "string" } }
-        ],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: { $ref: "#/components/schemas/TicketUpdate" },
-            },
-          },
-        },
-        responses: {
-          200: { description: "Ticket atualizado parcialmente com sucesso" },
-          404: { description: "Ticket não encontrado" },
-        },
+        parameters: [{ name: "notaServico", in: "path", required: true, schema: { type: "string" } }],
+        requestBody: { content: { "application/json": { schema: { $ref: "#/components/schemas/TicketUpdate" } } } },
+        responses: { 200: { description: "Updated successfully" } },
+      },
+      put: {
+        tags: ["Tickets"],
+        summary: "Update ticket by Note ID",
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: "notaServico", in: "path", required: true, schema: { type: "string" } }],
+        requestBody: { content: { "application/json": { schema: { $ref: "#/components/schemas/TicketUpdate" } } } },
+        responses: { 200: { description: "Updated successfully" } },
       },
     },
-    "/api/auth/login": {
+
+    // --- CLIENTS ---
+    "/api/clients": {
       post: {
-        tags: ["Autenticação"],
-        summary: "Login de funcionário ou admin",
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  email: { type: "string", example: "admin@eps.com" },
-                  password: { type: "string", example: "123456" },
-                },
-              },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: "Token JWT retornado",
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    token: { type: "string", example: "Bearer abc123..." },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "/api/auth/register": {
-      post: {
-        tags: ["Autenticação"],
-        summary: "Registro de novo usuário (apenas admin)",
+        tags: ["Clients"],
+        summary: "Register a new client",
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                required: ["email", "password"],
-                properties: {
-                  email: { type: "string", example: "funcionario@eps.com" },
-                  password: { type: "string", example: "123456" },
-                },
-              },
-            },
-          },
+          content: { "application/json": { schema: { $ref: "#/components/schemas/ClientInput" } } },
         },
         responses: {
-          201: { description: "Usuário registrado com sucesso" },
-          403: { description: "Apenas administradores podem registrar usuários" },
+          201: { description: "Client created successfully", content: { "application/json": { schema: { $ref: "#/components/schemas/ClientOutput" } } } },
+        },
+      },
+    },
+    "/api/clients/all": {
+      get: {
+        tags: ["Clients"],
+        summary: "List all clients",
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: "List of clients", content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/ClientOutput" } } } } },
+        },
+      },
+    },
+    "/api/clients/name/{name}": {
+      get: {
+        tags: ["Clients"],
+        summary: "Search clients by name",
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: "name", in: "path", required: true, schema: { type: "string" } }],
+        responses: { 200: { description: "Search results", content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/ClientOutput" } } } } } },
+      },
+    },
+
+    // --- USERS ---
+    "/api/users/all": {
+      get: {
+        tags: ["Users"],
+        summary: "List all system users",
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: "List of users", content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/UserOutput" } } } } },
+        },
+      },
+    },
+    "/api/users/email/{email}": {
+      get: {
+        tags: ["Users"],
+        summary: "Find user by email",
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: "email", in: "path", required: true, schema: { type: "string" } }],
+        responses: {
+          200: { description: "User data", content: { "application/json": { schema: { $ref: "#/components/schemas/UserOutput" } } } },
+          404: { description: "User not found" },
         },
       },
     },

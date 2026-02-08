@@ -50,33 +50,31 @@ export const createTicket = async (
       { locale: ptBR }
     );
 
-    const mensagem = `
-      <p><strong>Tickytoria</strong> - Sua nota de serviço foi registrada com sucesso com os seguintes detalhes:</p>
-      <ul>
-        <li><strong>Cliente:</strong> ${cliente}</li>
-        <li><strong>Empresa:</strong> ${empresa}</li>
-        <li><strong>CPF:</strong> ${cpf || "N/A"}</li>
-        <li><strong>CNPJ:</strong> ${cnpj || "N/A"}</li>
-        <li><strong>Telefone:</strong> ${telefone || "N/A"}</li>
-        <li><strong>WhatsApp:</strong> ${whatsapp || "N/A"}</li>
-        <li><strong>E-mail:</strong> ${emailEmpresa}</li>
-        <li><strong>Título:</strong> ${descricaoServico}</li>
-        <li><strong>Nota de Serviço:</strong> ${notaServico}</li>
-        <li><strong>Data:</strong> ${formattedDate}</li>
-      </ul>
-      <p>Responderemos em breve!</p>
-    `;
+    const lang = (req.body.lang || 'pt') as any;
+    const { getTicketEmailTemplate } = await import('../utils/emailTemplates');
+    
+    const { subject, html } = getTicketEmailTemplate(lang, {
+      cliente,
+      empresa,
+      cpf,
+      cnpj,
+      emailEmpresa,
+      telefone,
+      whatsapp,
+      descricaoServico,
+      notaServico,
+      formattedDate
+    });
 
     // Envia e-mail para o cliente
     if (emailEmpresa) {
-      const assunto = `Confirmação da Criação da Nota de Serviço - ${notaServico}`;
-      await sendTicketEmail(emailEmpresa, assunto, mensagem);
+      await sendTicketEmail(emailEmpresa, subject, html);
     }
 
     // Envia e-mail para o administrador (EMAIL_TO)
     if (process.env.EMAIL_TO) {
-      const assuntoAdmin = `Nova Nota de Serviço Criada - ${notaServico}`;
-      await sendTicketEmail(process.env.EMAIL_TO, assuntoAdmin, mensagem);
+      const subjectAdmin = lang === 'pt' ? `Nova Nota de Serviço Criada - ${notaServico}` : (lang === 'en' ? `New Service Order Created - ${notaServico}` : `Nueva Orden de Servicio Creada - ${notaServico}`);
+      await sendTicketEmail(process.env.EMAIL_TO, subjectAdmin, html);
     }
 
     // Envia WhatsApp

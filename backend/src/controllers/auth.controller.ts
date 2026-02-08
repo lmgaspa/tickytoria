@@ -12,6 +12,11 @@ export const register = async (
   try {
     const { name, email, password, role, whatsapp, endereco } = req.body;
 
+    if (password.length < 8) {
+      res.status(400).json({ message: 'A senha deve ter no mínimo 8 caracteres.' });
+      return;
+    }
+
     if (role !== 'funcionário') {
       res.status(403).json({ message: 'Somente admin pode registrar funcionário.' });
       return;
@@ -33,20 +38,30 @@ export const register = async (
       endereco 
     });
 
-    const html = `
-      <p><strong>Tickytoria</strong></p>
-      <p>Olá <strong>Tom Passinho</strong>,</p>
-      <p>O funcionário <strong>${newUser.name}</strong> foi criado com sucesso.</p>
-      <p><strong>E-mail:</strong> ${newUser.email}</p>
-      <p><strong>Função:</strong> ${newUser.role}</p>
-      <p><strong>WhatsApp:</strong> ${newUser.whatsapp || 'N/A'}</p>
-      <p><strong>Endereço:</strong> ${newUser.endereco || 'N/A'}</p>
-    `;
+    const lang = (req.body.lang || 'pt') as any;
+    const { getUserEmailTemplate } = await import('../utils/emailTemplates');
 
+    const { subject, html } = getUserEmailTemplate(lang, {
+      name: newUser.name,
+      email: newUser.email,
+      role: newUser.role,
+      whatsapp: newUser.whatsapp,
+      endereco: newUser.endereco
+    });
+
+    // Envia e-mail para o funcionário
+    await sendTicketEmail(
+      newUser.email,
+      subject,
+      html
+    );
+
+    // Envia e-mail para o administrador
     if (process.env.EMAIL_TO) {
+      const subjectAdmin = lang === 'pt' ? `Tickytoria - Novo Funcionário Criado: ${newUser.name}` : (lang === 'en' ? `Tickytoria - New Employee Created: ${newUser.name}` : `Tickytoria - Nuevo Empleado Creado: ${newUser.name}`);
       await sendTicketEmail(
         process.env.EMAIL_TO,
-        'Tickytoria - Funcionário criado com sucesso',
+        subjectAdmin,
         html
       );
     }
