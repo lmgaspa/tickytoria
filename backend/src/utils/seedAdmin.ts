@@ -19,6 +19,10 @@ export const seedAdmin = async () => {
                 // Force update password to ensure .env is source of truth
                 const hashedPassword = await bcrypt.hash(admin.password, 10);
                 existingUser.password = hashedPassword;
+                if (!existingUser.companyId) {
+                    existingUser.companyId = 'root-admin';
+                    existingUser.companyName = 'Tickytoria Root';
+                }
                 await existingUser.save();
                 console.log(`✅ Admin atualizado com senha do .env: ${admin.email}`);
                 continue;
@@ -29,7 +33,9 @@ export const seedAdmin = async () => {
                 name: 'Admin',
                 email: admin.email,
                 password: hashedPassword,
-                role: 'admin'
+                role: 'admin',
+                companyId: 'root-admin', // Default companyId for initial admins
+                companyName: 'Tickytoria Root'
             });
 
             console.log(`🎉 Admin criado com sucesso: ${admin.email}`);
