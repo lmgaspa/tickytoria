@@ -3,44 +3,56 @@
     <div class="container-fluid d-flex justify-content-between align-items-center">
       <!-- Logo Tickytoria com gradiente -->
       <div class="navbar-brand">
-        <RouterLink v-if="isLogoClickable" to="/" class="text-decoration-none">
+        <RouterLink :to="homeLink" class="text-decoration-none">
           <h3 class="mb-0 text-gradient-rainbow fw-bold">Tickytoria</h3>
         </RouterLink>
-        <h3 v-else class="mb-0 text-gradient-rainbow fw-bold">Tickytoria</h3>
       </div>
 
-      <!-- Language Selector -->
-      <div class="dropdown">
+      <div class="d-flex align-items-center gap-2">
+        <!-- Configuration Icon -->
         <button 
-          class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2" 
+          v-if="homeLink === '/dashboard'"
+          class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-center" 
           type="button" 
-          id="languageDropdown" 
-          data-bs-toggle="dropdown" 
-          aria-expanded="false"
+          @click="goToConfiguration"
+          title="Configuration"
         >
-          <i class="bi bi-globe fs-5"></i>
-          <span class="d-none d-sm-inline">{{ currentLanguageName }}</span>
+          <i class="bi bi-gear-fill fs-5"></i>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click.prevent="changeLanguage('en-US')">
-              <span class="fs-5">🇺🇸</span>
-              <span>English</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click.prevent="changeLanguage('es-ES')">
-              <span class="fs-5">🇪🇸</span>
-              <span>Español</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click.prevent="changeLanguage('pt-BR')">
-              <span class="fs-5">🇧🇷</span>
-              <span>Português</span>
-            </a>
-          </li>
-        </ul>
+
+        <!-- Language Selector -->
+        <div class="dropdown">
+          <button 
+            class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2" 
+            type="button" 
+            id="languageDropdown" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
+          >
+            <i class="bi bi-globe fs-5"></i>
+            <span class="d-none d-sm-inline">{{ currentLanguageName }}</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click.prevent="changeLanguage('en-US')">
+                <span class="fs-5">🇺🇸</span>
+                <span>English</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click.prevent="changeLanguage('es-ES')">
+                <span class="fs-5">🇪🇸</span>
+                <span>Español</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click.prevent="changeLanguage('pt-BR')">
+                <span class="fs-5">🇧🇷</span>
+                <span>Português</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -49,10 +61,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const { locale } = useI18n()
 const route = useRoute()
+const router = useRouter()
 
 const currentLanguageName = computed(() => {
   switch (locale.value) {
@@ -63,14 +76,25 @@ const currentLanguageName = computed(() => {
   }
 })
 
-const isLogoClickable = computed(() => {
-  const clickableRoutes = ['/', '/login']
-  return clickableRoutes.includes(route.path)
+const homeLink = computed(() => {
+  // Use route.fullPath to ensure reactivity when navigating (login/logout)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _trigger = route.fullPath
+  
+  const token = localStorage.getItem('token')
+  if (token) {
+    return '/dashboard'
+  }
+  return '/'
 })
 
 const changeLanguage = (lang: string) => {
   locale.value = lang
   localStorage.setItem('locale', lang)
+}
+
+const goToConfiguration = () => {
+  router.push('/configuration')
 }
 </script>
 

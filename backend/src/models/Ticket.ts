@@ -11,6 +11,7 @@ export interface TicketDocument extends Document {
   descricaoServico: string;
   notaServico: string;
   createdAt?: Date;
+  companyId: string;
 }
 
 const TicketSchema = new Schema<TicketDocument>({
@@ -23,7 +24,8 @@ const TicketSchema = new Schema<TicketDocument>({
   whatsapp: { type: String },
   descricaoServico: { type: String, required: true },
   notaServico: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  companyId: { type: String, required: true, index: true }
 });
 
 export default mongoose.model<TicketDocument>('Ticket', TicketSchema);

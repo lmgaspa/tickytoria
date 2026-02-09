@@ -19,9 +19,11 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({
     ...{ class: "fw-bold mb-3" },
 });
+(__VLS_ctx.$t('auth.resetPassword'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
     ...{ class: "fs-5 mb-4" },
 });
+(__VLS_ctx.$t('auth.passwordSent'));
 const __VLS_0 = {}.RouterLink;
 /** @type {[typeof __VLS_components.RouterLink, typeof __VLS_components.routerLink, typeof __VLS_components.RouterLink, typeof __VLS_components.routerLink, ]} */ ;
 // @ts-ignore
@@ -34,6 +36,7 @@ const __VLS_2 = __VLS_1({
     ...{ class: "btn btn-warning w-100 fw-semibold rounded-pill" },
 }, ...__VLS_functionalComponentArgsRest(__VLS_1));
 __VLS_3.slots.default;
+(__VLS_ctx.$t('auth.backToLogin'));
 var __VLS_3;
 /** @type {__VLS_StyleScopedClasses['forgot-password-page']} */ ;
 /** @type {__VLS_StyleScopedClasses['d-flex']} */ ;

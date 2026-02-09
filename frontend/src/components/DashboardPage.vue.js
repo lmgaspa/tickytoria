@@ -23,10 +23,13 @@ onMounted(async () => {
         router.push('/login');
     }
 });
-const goToBuscarNota = () => router.push('/busca-nota-de-servico');
-const goToNovaNota = () => router.push('/registrar-ticket');
-const goToRegistrarCliente = () => router.push('/registrar-cliente');
+const goToBuscarNota = () => router.push('/search-ticket');
+const goToNovaNota = () => router.push('/register-ticket');
+const goToRegistrarCliente = () => router.push('/register-client');
+const goToBuscarCliente = () => router.push('/search-client');
 const goToRegistrarFuncionario = () => router.push('/register');
+const goToBuscarFuncionario = () => router.push('/search-employee');
+const goToDeletarFuncionario = () => router.push('/delete-employee');
 const logout = () => {
     localStorage.removeItem('token');
     router.push('/login');
@@ -39,7 +42,7 @@ let __VLS_directives;
 // CSS variable injection 
 // CSS variable injection end 
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-    ...{ class: "dashboard-page d-flex flex-column justify-content-center align-items-center vh-100 position-relative" },
+    ...{ class: "dashboard-page d-flex flex-column align-items-center min-vh-100 position-relative py-5" },
 });
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "page-background" },
@@ -51,6 +54,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h1, __VLS_intrinsicElements.h1)({
     ...{ class: "display-3 fw-bold mb-2 tracking-tight" },
 });
+(__VLS_ctx.$t('dashboard.welcome'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
     ...{ class: "text-gradient" },
 });
@@ -58,6 +62,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.
 __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
     ...{ class: "lead mb-5 text-muted-light" },
 });
+(__VLS_ctx.$t('dashboard.subtitle'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "row g-4 justify-content-center" },
 });
@@ -77,9 +82,11 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)(
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
     ...{ class: "fw-bold mb-1" },
 });
+(__VLS_ctx.$t('dashboard.searchTicket'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
     ...{ class: "small text-muted-light" },
 });
+(__VLS_ctx.$t('dashboard.searchTicketDesc'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "col-md-6 col-lg-3" },
 });
@@ -96,49 +103,121 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)(
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
     ...{ class: "fw-bold mb-1" },
 });
+(__VLS_ctx.$t('dashboard.newTicket'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
     ...{ class: "small text-muted-light" },
 });
-__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-    ...{ class: "col-md-6 col-lg-3" },
-});
-__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-    ...{ onClick: (__VLS_ctx.goToRegistrarCliente) },
-    ...{ class: "glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" },
-});
-__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-    ...{ class: "icon-circle mb-3 bg-purple-glow" },
-});
-__VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)({
-    ...{ class: "bi bi-person-lines-fill fs-3 text-white" },
-});
-__VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
-    ...{ class: "fw-bold mb-1" },
-});
-__VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
-    ...{ class: "small text-muted-light" },
-});
+(__VLS_ctx.$t('dashboard.newTicketDesc'));
 if (__VLS_ctx.isAdmin) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "col-md-6 col-lg-3" },
     });
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-        ...{ onClick: (__VLS_ctx.goToRegistrarFuncionario) },
+        ...{ onClick: (__VLS_ctx.goToRegistrarCliente) },
         ...{ class: "glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" },
     });
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-        ...{ class: "icon-circle mb-3 bg-blue-glow" },
+        ...{ class: "icon-circle mb-3 bg-purple-glow" },
     });
     __VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)({
-        ...{ class: "bi bi-person-plus-fill fs-3 text-white" },
+        ...{ class: "bi bi-person-lines-fill fs-3 text-white" },
     });
     __VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
         ...{ class: "fw-bold mb-1" },
     });
+    (__VLS_ctx.$t('dashboard.registerClient'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
         ...{ class: "small text-muted-light" },
     });
+    (__VLS_ctx.$t('dashboard.registerClientDesc'));
 }
+if (__VLS_ctx.isAdmin) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "col-md-6 col-lg-3" },
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ onClick: (__VLS_ctx.goToBuscarCliente) },
+        ...{ class: "glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" },
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "icon-circle mb-3 bg-info-glow" },
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)({
+        ...{ class: "bi bi-person-badge-fill fs-3 text-white" },
+    });
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
+        ...{ class: "fw-bold mb-1" },
+    });
+    (__VLS_ctx.$t('dashboard.searchClient'));
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+        ...{ class: "small text-muted-light" },
+    });
+    (__VLS_ctx.$t('dashboard.searchClientDesc'));
+}
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "col-md-6 col-lg-3" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ onClick: (__VLS_ctx.goToRegistrarFuncionario) },
+    ...{ class: "glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "icon-circle mb-3 bg-blue-glow" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)({
+    ...{ class: "bi bi-person-plus-fill fs-3 text-white" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
+    ...{ class: "fw-bold mb-1" },
+});
+(__VLS_ctx.$t('dashboard.registerEmployee'));
+__VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+    ...{ class: "small text-muted-light" },
+});
+(__VLS_ctx.$t('dashboard.registerEmployeeDesc'));
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "col-md-6 col-lg-3" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ onClick: (__VLS_ctx.goToBuscarFuncionario) },
+    ...{ class: "glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "icon-circle mb-1 bg-blue-glow" },
+    ...{ style: {} },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)({
+    ...{ class: "bi bi-people-fill fs-3 text-white" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
+    ...{ class: "fw-bold mb-1" },
+});
+(__VLS_ctx.$t('dashboard.searchEmployee'));
+__VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+    ...{ class: "small text-muted-light" },
+});
+(__VLS_ctx.$t('dashboard.searchEmployeeDesc'));
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "col-md-6 col-lg-3" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ onClick: (__VLS_ctx.goToDeletarFuncionario) },
+    ...{ class: "glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer bg-danger-soft" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "icon-circle mb-3 bg-red-glow" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)({
+    ...{ class: "bi bi-trash-fill fs-3 text-white" },
+});
+__VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
+    ...{ class: "fw-bold mb-1" },
+});
+(__VLS_ctx.$t('deleteUser.title'));
+__VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
+    ...{ class: "small text-muted-light" },
+});
+(__VLS_ctx.$t('deleteUser.warning'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "col-md-6 col-lg-3" },
 });
@@ -155,16 +234,18 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.i, __VLS_intrinsicElements.i)(
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h5, __VLS_intrinsicElements.h5)({
     ...{ class: "fw-bold mb-1" },
 });
+(__VLS_ctx.$t('dashboard.logout'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.span)({
     ...{ class: "small text-muted-light" },
 });
+(__VLS_ctx.$t('dashboard.logoutDesc'));
 /** @type {__VLS_StyleScopedClasses['dashboard-page']} */ ;
 /** @type {__VLS_StyleScopedClasses['d-flex']} */ ;
 /** @type {__VLS_StyleScopedClasses['flex-column']} */ ;
-/** @type {__VLS_StyleScopedClasses['justify-content-center']} */ ;
 /** @type {__VLS_StyleScopedClasses['align-items-center']} */ ;
-/** @type {__VLS_StyleScopedClasses['vh-100']} */ ;
+/** @type {__VLS_StyleScopedClasses['min-vh-100']} */ ;
 /** @type {__VLS_StyleScopedClasses['position-relative']} */ ;
+/** @type {__VLS_StyleScopedClasses['py-5']} */ ;
 /** @type {__VLS_StyleScopedClasses['page-background']} */ ;
 /** @type {__VLS_StyleScopedClasses['content']} */ ;
 /** @type {__VLS_StyleScopedClasses['position-relative']} */ ;
@@ -261,9 +342,76 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.span, __VLS_intrinsicElements.
 /** @type {__VLS_StyleScopedClasses['cursor-pointer']} */ ;
 /** @type {__VLS_StyleScopedClasses['icon-circle']} */ ;
 /** @type {__VLS_StyleScopedClasses['mb-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-info-glow']} */ ;
+/** @type {__VLS_StyleScopedClasses['bi']} */ ;
+/** @type {__VLS_StyleScopedClasses['bi-person-badge-fill']} */ ;
+/** @type {__VLS_StyleScopedClasses['fs-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['text-white']} */ ;
+/** @type {__VLS_StyleScopedClasses['fw-bold']} */ ;
+/** @type {__VLS_StyleScopedClasses['mb-1']} */ ;
+/** @type {__VLS_StyleScopedClasses['small']} */ ;
+/** @type {__VLS_StyleScopedClasses['text-muted-light']} */ ;
+/** @type {__VLS_StyleScopedClasses['col-md-6']} */ ;
+/** @type {__VLS_StyleScopedClasses['col-lg-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['glass-card']} */ ;
+/** @type {__VLS_StyleScopedClasses['hover-card']} */ ;
+/** @type {__VLS_StyleScopedClasses['p-4']} */ ;
+/** @type {__VLS_StyleScopedClasses['h-100']} */ ;
+/** @type {__VLS_StyleScopedClasses['d-flex']} */ ;
+/** @type {__VLS_StyleScopedClasses['flex-column']} */ ;
+/** @type {__VLS_StyleScopedClasses['align-items-center']} */ ;
+/** @type {__VLS_StyleScopedClasses['justify-content-center']} */ ;
+/** @type {__VLS_StyleScopedClasses['cursor-pointer']} */ ;
+/** @type {__VLS_StyleScopedClasses['icon-circle']} */ ;
+/** @type {__VLS_StyleScopedClasses['mb-3']} */ ;
 /** @type {__VLS_StyleScopedClasses['bg-blue-glow']} */ ;
 /** @type {__VLS_StyleScopedClasses['bi']} */ ;
 /** @type {__VLS_StyleScopedClasses['bi-person-plus-fill']} */ ;
+/** @type {__VLS_StyleScopedClasses['fs-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['text-white']} */ ;
+/** @type {__VLS_StyleScopedClasses['fw-bold']} */ ;
+/** @type {__VLS_StyleScopedClasses['mb-1']} */ ;
+/** @type {__VLS_StyleScopedClasses['small']} */ ;
+/** @type {__VLS_StyleScopedClasses['text-muted-light']} */ ;
+/** @type {__VLS_StyleScopedClasses['col-md-6']} */ ;
+/** @type {__VLS_StyleScopedClasses['col-lg-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['glass-card']} */ ;
+/** @type {__VLS_StyleScopedClasses['hover-card']} */ ;
+/** @type {__VLS_StyleScopedClasses['p-4']} */ ;
+/** @type {__VLS_StyleScopedClasses['h-100']} */ ;
+/** @type {__VLS_StyleScopedClasses['d-flex']} */ ;
+/** @type {__VLS_StyleScopedClasses['flex-column']} */ ;
+/** @type {__VLS_StyleScopedClasses['align-items-center']} */ ;
+/** @type {__VLS_StyleScopedClasses['justify-content-center']} */ ;
+/** @type {__VLS_StyleScopedClasses['cursor-pointer']} */ ;
+/** @type {__VLS_StyleScopedClasses['icon-circle']} */ ;
+/** @type {__VLS_StyleScopedClasses['mb-1']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-blue-glow']} */ ;
+/** @type {__VLS_StyleScopedClasses['bi']} */ ;
+/** @type {__VLS_StyleScopedClasses['bi-people-fill']} */ ;
+/** @type {__VLS_StyleScopedClasses['fs-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['text-white']} */ ;
+/** @type {__VLS_StyleScopedClasses['fw-bold']} */ ;
+/** @type {__VLS_StyleScopedClasses['mb-1']} */ ;
+/** @type {__VLS_StyleScopedClasses['small']} */ ;
+/** @type {__VLS_StyleScopedClasses['text-muted-light']} */ ;
+/** @type {__VLS_StyleScopedClasses['col-md-6']} */ ;
+/** @type {__VLS_StyleScopedClasses['col-lg-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['glass-card']} */ ;
+/** @type {__VLS_StyleScopedClasses['hover-card']} */ ;
+/** @type {__VLS_StyleScopedClasses['p-4']} */ ;
+/** @type {__VLS_StyleScopedClasses['h-100']} */ ;
+/** @type {__VLS_StyleScopedClasses['d-flex']} */ ;
+/** @type {__VLS_StyleScopedClasses['flex-column']} */ ;
+/** @type {__VLS_StyleScopedClasses['align-items-center']} */ ;
+/** @type {__VLS_StyleScopedClasses['justify-content-center']} */ ;
+/** @type {__VLS_StyleScopedClasses['cursor-pointer']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-danger-soft']} */ ;
+/** @type {__VLS_StyleScopedClasses['icon-circle']} */ ;
+/** @type {__VLS_StyleScopedClasses['mb-3']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-red-glow']} */ ;
+/** @type {__VLS_StyleScopedClasses['bi']} */ ;
+/** @type {__VLS_StyleScopedClasses['bi-trash-fill']} */ ;
 /** @type {__VLS_StyleScopedClasses['fs-3']} */ ;
 /** @type {__VLS_StyleScopedClasses['text-white']} */ ;
 /** @type {__VLS_StyleScopedClasses['fw-bold']} */ ;
@@ -302,7 +450,10 @@ const __VLS_self = (await import('vue')).defineComponent({
             goToBuscarNota: goToBuscarNota,
             goToNovaNota: goToNovaNota,
             goToRegistrarCliente: goToRegistrarCliente,
+            goToBuscarCliente: goToBuscarCliente,
             goToRegistrarFuncionario: goToRegistrarFuncionario,
+            goToBuscarFuncionario: goToBuscarFuncionario,
+            goToDeletarFuncionario: goToDeletarFuncionario,
             logout: logout,
         };
     },

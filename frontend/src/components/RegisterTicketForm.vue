@@ -3,11 +3,8 @@
     <div class="page-background"></div>
 
     <!-- Botão de voltar fixo -->
-    <div class="w-100 mt-3 px-3 position-relative text-center" style="max-width: 600px; z-index: 1;">
-      <RouterLink to="/dashboard" class="btn btn-success fw-bold rounded-pill px-4 btn-sm">
-        {{ $t('common.back') }}
-      </RouterLink>
-    </div>
+    <!-- Botão de voltar fixo -->
+    <BackButton to="/dashboard" />
 
     <!-- Botão de início do cadastro (aparece só na etapa 0) -->
     <div v-if="startStep === 0" class="mt-2 text-center position-relative" style="z-index: 1;">
@@ -97,9 +94,11 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { API_URL } from '../config';
+import BackButton from './BackButton.vue';
 
 export default defineComponent({
   name: 'RegisterTicketForm',
+  components: { BackButton },
   setup() {
     const startStep = ref(0);
     const selectedCpfCnpj = ref('');

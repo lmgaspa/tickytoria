@@ -2,11 +2,7 @@
   <div class="d-flex flex-column align-items-center full-height position-relative pt-2" style="z-index: 1;">
     <div class="page-background"></div>
 
-    <div class="w-100 mt-3 px-3 position-relative text-center" style="max-width: 600px; z-index: 1;">
-      <RouterLink to="/dashboard" class="btn btn-success fw-bold rounded-pill px-4 btn-sm">
-        {{ $t('common.back') }}
-      </RouterLink>
-    </div>
+    <BackButton to="/dashboard" />
 
     <div class="glass-card p-4 border rounded shadow-sm w-100 mt-4 position-relative" style="max-width: 600px; z-index: 1; border-color: rgba(255, 0, 0, 0.3) !important;">
       <h4 class="mb-3 text-center text-danger fw-bold">{{ $t('deleteUser.title') }}</h4>
@@ -32,6 +28,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { API_URL } from '../config';
+import BackButton from './BackButton.vue';
 
 const router = useRouter()
 const { t } = useI18n()

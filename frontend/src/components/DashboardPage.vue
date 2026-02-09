@@ -3,6 +3,7 @@
     <div class="page-background"></div>
 
     <div class="content position-relative z-2 text-center w-100" style="max-width: 900px;">
+
       <h1 class="display-3 fw-bold mb-2 tracking-tight">{{ $t('dashboard.welcome') }}, <span class="text-gradient">{{ userName }}</span></h1>
       <p class="lead mb-5 text-muted-light">{{ $t('dashboard.subtitle') }}</p>
 
@@ -30,7 +31,7 @@
         </div>
 
         <!-- Card: Registrar Cliente -->
-        <div class="col-md-6 col-lg-3">
+        <div v-if="isAdmin" class="col-md-6 col-lg-3">
           <div class="glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" @click="goToRegistrarCliente">
             <div class="icon-circle mb-3 bg-purple-glow">
               <i class="bi bi-person-lines-fill fs-3 text-white"></i>
@@ -41,7 +42,7 @@
         </div>
 
         <!-- Card: Buscar Cliente -->
-        <div class="col-md-6 col-lg-3">
+        <div v-if="isAdmin" class="col-md-6 col-lg-3">
           <div class="glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" @click="goToBuscarCliente">
             <div class="icon-circle mb-3 bg-info-glow">
               <i class="bi bi-person-badge-fill fs-3 text-white"></i>
@@ -51,8 +52,8 @@
           </div>
         </div>
 
-        <!-- Card: Registrar ário (Admin) -->
-        <div v-if="isAdmin" class="col-md-6 col-lg-3">
+        <!-- Card: Registrar Funcionário -->
+        <div class="col-md-6 col-lg-3">
           <div class="glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" @click="goToRegistrarFuncionario">
             <div class="icon-circle mb-3 bg-blue-glow">
               <i class="bi bi-person-plus-fill fs-3 text-white"></i>
@@ -62,8 +63,8 @@
           </div>
         </div>
 
-        <!-- Card: Buscar Funcionário (Admin) -->
-        <div v-if="isAdmin" class="col-md-6 col-lg-3">
+        <!-- Card: Buscar Funcionário -->
+        <div class="col-md-6 col-lg-3">
           <div class="glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer" @click="goToBuscarFuncionario">
             <div class="icon-circle mb-1 bg-blue-glow" style="filter: hue-rotate(45deg);">
               <i class="bi bi-people-fill fs-3 text-white"></i>
@@ -73,8 +74,8 @@
           </div>
         </div>
 
-        <!-- Card: Deletar Funcionário (Admin) -->
-        <div v-if="isAdmin" class="col-md-6 col-lg-3">
+        <!-- Card: Deletar Funcionário -->
+        <div class="col-md-6 col-lg-3">
           <div class="glass-card hover-card p-4 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer bg-danger-soft" @click="goToDeletarFuncionario">
             <div class="icon-circle mb-3 bg-red-glow">
               <i class="bi bi-trash-fill fs-3 text-white"></i>
@@ -140,9 +141,12 @@ const logout = () => {
   localStorage.removeItem('token')
   router.push('/login')
 }
+
+
 </script>
 
 <style scoped>
+
 .dashboard-page {
   background-color: var(--bg-color);
   overflow-y: auto; /* Enable vertical scrolling */

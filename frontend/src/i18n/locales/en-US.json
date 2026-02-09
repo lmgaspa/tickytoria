@@ -52,6 +52,13 @@
         "secureLogin": "Secure login",
         "roleAccess": "Role-based access",
         "passwordRecovery": "Password recovery"
+      },
+      "multiTenancy": {
+        "title": "Multi-tenancy & Reselling",
+        "description": "Robust architecture for multiple clients. Each client has their own isolated environment, allowing you to act as a service provider.",
+        "isolatedData": "Isolated Data",
+        "clientDashboard": "Client Dashboard",
+        "providerModel": "Provider Model"
       }
     },
     "cta": {
@@ -132,7 +139,13 @@
     "byWhatsApp": "WhatsApp",
     "allClients": "All Clients",
     "searchButton": "Search",
-    "noResults": "No client found."
+    "noResults": "No client found.",
+    "optional": "(Optional)",
+    "systemAccess": "System Access (New Company)",
+    "accessPassword": "Access Password",
+    "confirmAccessPassword": "Confirm Password",
+    "passwordPlaceholder": "Client password (Min. 8 chars)",
+    "repeatPassword": "Repeat password"
   },
   "ticket": {
     "register": "Service Note Registration",
@@ -191,5 +204,23 @@
     "subtitle": "Service Management System",
     "poweredBy": "Powered by",
     "rights": "All rights reserved"
+  },
+  "configuration": {
+    "title": "Configuration",
+    "profile": "Profile Settings",
+    "security": "Security Settings",
+    "updateName": "Full Name",
+    "updatePassword": "New Password",
+    "currentPassword": "Current Password",
+    "confirmPassword": "Confirm New Password",
+    "success": "Profile updated successfully.",
+    "emailSent": "A confirmation email has been sent.",
+    "saveName": "Save Name",
+    "savePassword": "Update Password",
+    "namePlaceholder": "Enter your full name",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "newPasswordPlaceholder": "Enter your new password (min. 8 chars)",
+    "confirmPasswordPlaceholder": "Repeat your new password",
+    "passwordMismatch": "Passwords do not match."
   }
 }

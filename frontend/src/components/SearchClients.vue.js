@@ -4,16 +4,16 @@ import { useI18n } from 'vue-i18n';
 import { API_URL } from '../config';
 import BackButton from './BackButton.vue';
 const router = useRouter();
-const baseUrl = `${API_URL}/api/tickets`;
+const baseUrl = `${API_URL}/api/clients`;
 const searchType = ref('');
 const searchValue = ref('');
-const tickets = ref([]);
+const clients = ref([]);
 const page = ref(1);
 const perPage = 20;
 const notFound = ref(false);
-const goToEdit = (ticket) => {
-    router.push(`/edit-ticket/${ticket.notaServico}`);
-};
+// const goToEdit = (client: any) => {
+//   router.push(`/editar-cliente/${client._id}`)
+// }
 watch(searchValue, (val) => {
     if (searchType.value === 'cpf') {
         searchValue.value = val.replace(/\D/g, '').slice(0, 11).replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
@@ -34,24 +34,23 @@ watch(searchType, () => {
 const { t } = useI18n();
 const labelForType = computed(() => {
     switch (searchType.value) {
-        case 'cliente': return t('client.name');
+        case 'name': return t('client.name');
         case 'empresa': return t('client.company');
         case 'cpf': return 'CPF';
         case 'cnpj': return 'CNPJ';
         case 'whatsapp': return t('ticket.whatsapp');
         case 'telefone': return t('ticket.phone');
-        case 'email': return t('ticket.email');
-        case 'nota': return t('ticket.ticketNumber');
+        case 'email': return t('employee.email');
         default: return '';
     }
 });
-const paginatedTickets = computed(() => {
+const paginatedClients = computed(() => {
     const start = (page.value - 1) * perPage;
-    return tickets.value.slice(start, start + perPage);
+    return clients.value.slice(start, start + perPage);
 });
-const totalPages = computed(() => Math.ceil(tickets.value.length / perPage));
+const totalPages = computed(() => Math.ceil(clients.value.length / perPage));
 const notFoundMessage = computed(() => 'Nenhum registro encontrado.');
-const searchTicket = async () => {
+const searchClient = async () => {
     if (!searchType.value)
         return;
     if (searchType.value === 'email' && !/^\S+@\S+\.\S+$/.test(searchValue.value)) {
@@ -65,15 +64,15 @@ const searchTicket = async () => {
         url = `${baseUrl}/all`;
     }
     else {
+        // Check client.routes.ts for route definitions 
         const routeMap = {
-            cliente: 'cliente',
+            name: 'name',
             empresa: 'empresa',
             cpf: 'cpf',
             cnpj: 'cnpj',
             whatsapp: 'whatsapp',
             telefone: 'telefone',
-            email: 'email',
-            nota: 'nota'
+            email: 'email'
         };
         const endpoint = routeMap[searchType.value];
         url = `${baseUrl}/${endpoint}/${encoded}`;
@@ -84,24 +83,28 @@ const searchTicket = async () => {
         });
         const result = await response.json();
         if (!Array.isArray(result)) {
-            if (result && result.notaServico) {
-                tickets.value = [result];
-                notFound.value = false;
+            // Backend returns 404 with objects for not found, but if found single obj?
+            // Controller returns array in all cases for search methods I implemented, 
+            // but let's handle if it returns single object just in case or error message
+            if (result && result.message) {
+                // likely error or not found
+                clients.value = [];
+                notFound.value = true;
             }
             else {
-                tickets.value = [];
-                notFound.value = true;
+                clients.value = [result];
+                notFound.value = false;
             }
         }
         else {
-            tickets.value = result;
+            clients.value = result;
             notFound.value = result.length === 0;
         }
         page.value = 1;
     }
     catch (err) {
-        console.error('Erro ao buscar tickets:', err);
-        tickets.value = [];
+        console.error('Erro ao buscar clientes:', err);
+        clients.value = [];
         notFound.value = true;
     }
 };
@@ -132,14 +135,14 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({
     ...{ class: "mb-4 text-center text-gradient fw-bold" },
 });
-(__VLS_ctx.$t('ticket.search'));
+(__VLS_ctx.$t('client.search'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "form-group mb-3" },
 });
 __VLS_asFunctionalElement(__VLS_intrinsicElements.label, __VLS_intrinsicElements.label)({
     ...{ class: "form-label" },
 });
-(__VLS_ctx.$t('ticket.searchBy'));
+(__VLS_ctx.$t('client.searchBy'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.select, __VLS_intrinsicElements.select)({
     value: (__VLS_ctx.searchType),
     ...{ class: "form-select" },
@@ -150,7 +153,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.option, __VLS_intrinsicElement
 });
 (__VLS_ctx.$t('employee.selectOption'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.option, __VLS_intrinsicElements.option)({
-    value: "cliente",
+    value: "name",
 });
 (__VLS_ctx.$t('client.name'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.option, __VLS_intrinsicElements.option)({
@@ -174,14 +177,11 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.option, __VLS_intrinsicElement
 __VLS_asFunctionalElement(__VLS_intrinsicElements.option, __VLS_intrinsicElements.option)({
     value: "email",
 });
-(__VLS_ctx.$t('ticket.email'));
-__VLS_asFunctionalElement(__VLS_intrinsicElements.option, __VLS_intrinsicElements.option)({
-    value: "nota",
-});
-(__VLS_ctx.$t('ticket.ticketNumber'));
+(__VLS_ctx.$t('employee.email'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.option, __VLS_intrinsicElements.option)({
     value: "all",
 });
+(__VLS_ctx.$t('client.allClients'));
 if (__VLS_ctx.searchType !== '' && __VLS_ctx.searchType !== 'all') {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "form-group mb-3" },
@@ -199,17 +199,17 @@ if (__VLS_ctx.searchType !== '' && __VLS_ctx.searchType !== 'all') {
     (__VLS_ctx.searchValue);
 }
 __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
-    ...{ onClick: (__VLS_ctx.searchTicket) },
+    ...{ onClick: (__VLS_ctx.searchClient) },
     ...{ class: "btn btn-warning w-100" },
 });
-(__VLS_ctx.$t('ticket.searchButton'));
+(__VLS_ctx.$t('client.searchButton'));
 if (__VLS_ctx.notFound) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
         ...{ class: "text-danger text-center mt-3 fw-bold" },
     });
-    (__VLS_ctx.$t('ticket.noResults'));
+    (__VLS_ctx.$t('client.noResults'));
 }
-if (__VLS_ctx.paginatedTickets.length > 0) {
+if (__VLS_ctx.paginatedClients.length > 0) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "card p-4 w-100 mt-4" },
         ...{ style: {} },
@@ -218,54 +218,41 @@ if (__VLS_ctx.paginatedTickets.length > 0) {
         ...{ class: "mb-3" },
     });
     (__VLS_ctx.$t('employee.results'));
-    for (const [ticket] of __VLS_getVForSourceType((__VLS_ctx.paginatedTickets))) {
+    for (const [client] of __VLS_getVForSourceType((__VLS_ctx.paginatedClients))) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-            key: (ticket._id),
+            key: (client._id),
             ...{ class: "mb-4 p-3 border rounded shadow-sm" },
         });
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
-        (__VLS_ctx.$t('ticket.ticketNumber'));
-        (ticket.notaServico);
+        (__VLS_ctx.$t('client.name'));
+        (client.name);
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
-        (__VLS_ctx.$t('ticket.client'));
-        (ticket.cliente);
+        (__VLS_ctx.$t('client.company'));
+        (client.empresa);
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
-        (__VLS_ctx.$t('ticket.company'));
-        (ticket.empresa);
+        (client.cpf);
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
-        (ticket.cpf);
-        __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
-        __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
-        (ticket.cnpj);
+        (client.cnpj);
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
         (__VLS_ctx.$t('ticket.whatsapp'));
-        (ticket.whatsapp);
+        (client.whatsapp);
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
         (__VLS_ctx.$t('ticket.phone'));
-        (ticket.telefone);
+        (client.telefone);
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
-        (__VLS_ctx.$t('ticket.email'));
-        (ticket.emailEmpresa);
+        (__VLS_ctx.$t('employee.email'));
+        (client.emailEmpresa);
         __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({});
         __VLS_asFunctionalElement(__VLS_intrinsicElements.strong, __VLS_intrinsicElements.strong)({});
-        (__VLS_ctx.$t('ticket.description'));
-        (ticket.descricaoServico);
-        __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
-            ...{ onClick: (...[$event]) => {
-                    if (!(__VLS_ctx.paginatedTickets.length > 0))
-                        return;
-                    __VLS_ctx.goToEdit(ticket);
-                } },
-            ...{ class: "btn btn-primary btn-sm mt-2" },
-        });
-        (__VLS_ctx.$t('common.edit'));
+        (__VLS_ctx.$t('employee.address'));
+        (client.endereco);
     }
     if (__VLS_ctx.totalPages > 1) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
@@ -273,7 +260,7 @@ if (__VLS_ctx.paginatedTickets.length > 0) {
         });
         __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
             ...{ onClick: (...[$event]) => {
-                    if (!(__VLS_ctx.paginatedTickets.length > 0))
+                    if (!(__VLS_ctx.paginatedClients.length > 0))
                         return;
                     if (!(__VLS_ctx.totalPages > 1))
                         return;
@@ -285,7 +272,7 @@ if (__VLS_ctx.paginatedTickets.length > 0) {
         (__VLS_ctx.$t('common.previous'));
         __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
             ...{ onClick: (...[$event]) => {
-                    if (!(__VLS_ctx.paginatedTickets.length > 0))
+                    if (!(__VLS_ctx.paginatedClients.length > 0))
                         return;
                     if (!(__VLS_ctx.totalPages > 1))
                         return;
@@ -336,10 +323,6 @@ if (__VLS_ctx.paginatedTickets.length > 0) {
 /** @type {__VLS_StyleScopedClasses['border']} */ ;
 /** @type {__VLS_StyleScopedClasses['rounded']} */ ;
 /** @type {__VLS_StyleScopedClasses['shadow-sm']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn-primary']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn-sm']} */ ;
-/** @type {__VLS_StyleScopedClasses['mt-2']} */ ;
 /** @type {__VLS_StyleScopedClasses['d-flex']} */ ;
 /** @type {__VLS_StyleScopedClasses['justify-content-between']} */ ;
 /** @type {__VLS_StyleScopedClasses['mt-3']} */ ;
@@ -356,11 +339,10 @@ const __VLS_self = (await import('vue')).defineComponent({
             searchValue: searchValue,
             page: page,
             notFound: notFound,
-            goToEdit: goToEdit,
             labelForType: labelForType,
-            paginatedTickets: paginatedTickets,
+            paginatedClients: paginatedClients,
             totalPages: totalPages,
-            searchTicket: searchTicket,
+            searchClient: searchClient,
         };
     },
 });

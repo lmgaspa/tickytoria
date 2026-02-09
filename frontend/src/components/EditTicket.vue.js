@@ -1,6 +1,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { API_URL } from '../config';
+import BackButton from './BackButton.vue';
 const route = useRoute();
 const router = useRouter();
 const notaServico = route.params.notaServico;
@@ -124,23 +125,14 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
     ...{ class: "glass-card p-4" },
     ...{ style: {} },
 });
-__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-    ...{ class: "w-100 mb-3" },
-    ...{ style: {} },
-});
-const __VLS_0 = {}.RouterLink;
-/** @type {[typeof __VLS_components.RouterLink, typeof __VLS_components.RouterLink, ]} */ ;
+/** @type {[typeof BackButton, ]} */ ;
 // @ts-ignore
-const __VLS_1 = __VLS_asFunctionalComponent(__VLS_0, new __VLS_0({
+const __VLS_0 = __VLS_asFunctionalComponent(BackButton, new BackButton({
     to: "/dashboard",
-    ...{ class: "btn btn-primary w-100 fw-bold rounded-pill" },
 }));
-const __VLS_2 = __VLS_1({
+const __VLS_1 = __VLS_0({
     to: "/dashboard",
-    ...{ class: "btn btn-primary w-100 fw-bold rounded-pill" },
-}, ...__VLS_functionalComponentArgsRest(__VLS_1));
-__VLS_3.slots.default;
-var __VLS_3;
+}, ...__VLS_functionalComponentArgsRest(__VLS_0));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({
     ...{ class: "text-center fw-bold text-gradient mb-3" },
 });
@@ -199,13 +191,6 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
 /** @type {__VLS_StyleScopedClasses['page-background']} */ ;
 /** @type {__VLS_StyleScopedClasses['glass-card']} */ ;
 /** @type {__VLS_StyleScopedClasses['p-4']} */ ;
-/** @type {__VLS_StyleScopedClasses['w-100']} */ ;
-/** @type {__VLS_StyleScopedClasses['mb-3']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn-primary']} */ ;
-/** @type {__VLS_StyleScopedClasses['w-100']} */ ;
-/** @type {__VLS_StyleScopedClasses['fw-bold']} */ ;
-/** @type {__VLS_StyleScopedClasses['rounded-pill']} */ ;
 /** @type {__VLS_StyleScopedClasses['text-center']} */ ;
 /** @type {__VLS_StyleScopedClasses['fw-bold']} */ ;
 /** @type {__VLS_StyleScopedClasses['text-gradient']} */ ;
@@ -225,6 +210,7 @@ var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
         return {
+            BackButton: BackButton,
             formData: formData,
             isUpdating: isUpdating,
             fields: fields,

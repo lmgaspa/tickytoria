@@ -1,6 +1,7 @@
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { API_URL } from '../config';
+const router = useRouter();
 const password = ref('');
 const success = ref('');
 const error = ref('');
@@ -12,6 +13,10 @@ onMounted(() => {
 const submit = async () => {
     success.value = '';
     error.value = '';
+    if (password.value.length < 8) {
+        error.value = 'A senha deve ter no mínimo 8 caracteres.';
+        return;
+    }
     try {
         const response = await fetch(`${API_URL}/api/auth/reset-password`, {
             method: 'POST',
@@ -25,6 +30,9 @@ const submit = async () => {
         if (!response.ok)
             throw new Error(result.message || 'Erro ao redefinir a senha.');
         success.value = result.message || 'Senha redefinida com sucesso!';
+        setTimeout(() => {
+            router.push('/login');
+        }, 2000);
     }
     catch (err) {
         error.value = err.message;
@@ -49,6 +57,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({
     ...{ class: "text-center fw-bold mb-3" },
 });
+(__VLS_ctx.$t('auth.resetPassword'));
 if (!__VLS_ctx.success) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.form, __VLS_intrinsicElements.form)({
         ...{ onSubmit: (__VLS_ctx.submit) },
@@ -60,11 +69,12 @@ if (!__VLS_ctx.success) {
         for: "password",
         ...{ class: "form-label" },
     });
+    (__VLS_ctx.$t('auth.newPassword'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
         type: "password",
         id: "password",
         ...{ class: "form-control" },
-        placeholder: "Digite sua nova senha",
+        placeholder: (__VLS_ctx.$t('auth.newPasswordPlaceholder')),
         required: true,
     });
     (__VLS_ctx.password);
@@ -72,12 +82,14 @@ if (!__VLS_ctx.success) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.small, __VLS_intrinsicElements.small)({
             ...{ class: "text-danger" },
         });
+        (__VLS_ctx.$t('auth.passwordMinLength'));
     }
     __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
         type: "submit",
         ...{ class: "btn btn-primary w-100 fw-semibold rounded-pill" },
         disabled: (__VLS_ctx.password.length < 8),
     });
+    (__VLS_ctx.$t('auth.resetPassword'));
 }
 if (__VLS_ctx.success) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({

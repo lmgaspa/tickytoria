@@ -1,7 +1,9 @@
 import { defineComponent, ref } from 'vue';
 import { API_URL } from '../config';
+import BackButton from './BackButton.vue';
 export default defineComponent({
     name: 'RegisterTicketForm',
+    components: { BackButton },
     setup() {
         const startStep = ref(0);
         const selectedCpfCnpj = ref('');
@@ -117,6 +119,7 @@ export default defineComponent({
 });
 debugger; /* PartiallyEnd: #3632/script.vue */
 const __VLS_ctx = {};
+const __VLS_componentsOption = { BackButton };
 let __VLS_components;
 let __VLS_directives;
 // CSS variable injection 
@@ -128,23 +131,15 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "page-background" },
 });
-__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
-    ...{ class: "w-100 mt-3 px-3 position-relative text-center" },
-    ...{ style: {} },
-});
-const __VLS_0 = {}.RouterLink;
-/** @type {[typeof __VLS_components.RouterLink, typeof __VLS_components.RouterLink, ]} */ ;
+const __VLS_0 = {}.BackButton;
+/** @type {[typeof __VLS_components.BackButton, ]} */ ;
 // @ts-ignore
 const __VLS_1 = __VLS_asFunctionalComponent(__VLS_0, new __VLS_0({
     to: "/dashboard",
-    ...{ class: "btn btn-success fw-bold rounded-pill px-4 btn-sm" },
 }));
 const __VLS_2 = __VLS_1({
     to: "/dashboard",
-    ...{ class: "btn btn-success fw-bold rounded-pill px-4 btn-sm" },
 }, ...__VLS_functionalComponentArgsRest(__VLS_1));
-__VLS_3.slots.default;
-var __VLS_3;
 if (__VLS_ctx.startStep === 0) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "mt-2 text-center position-relative" },
@@ -158,6 +153,7 @@ if (__VLS_ctx.startStep === 0) {
             } },
         ...{ class: "btn btn-warning fw-bold px-4 rounded-pill btn-sm" },
     });
+    (__VLS_ctx.$t('ticket.startRegister'));
 }
 if (__VLS_ctx.startStep === 1) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
@@ -167,6 +163,7 @@ if (__VLS_ctx.startStep === 1) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.h6, __VLS_intrinsicElements.h6)({
         ...{ class: "mb-3 text-center fw-bold" },
     });
+    (__VLS_ctx.$t('ticket.useCPFOrCNPJ'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "d-flex justify-content-around" },
     });
@@ -195,6 +192,7 @@ if (__VLS_ctx.startStep === 2) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.h6, __VLS_intrinsicElements.h6)({
         ...{ class: "mb-3 text-center fw-bold" },
     });
+    (__VLS_ctx.$t('ticket.usePhoneOrWhatsApp'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "d-flex justify-content-around" },
     });
@@ -206,6 +204,7 @@ if (__VLS_ctx.startStep === 2) {
             } },
         ...{ class: "btn btn-warning btn-sm px-4" },
     });
+    (__VLS_ctx.$t('ticket.phone'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({
         ...{ onClick: (...[$event]) => {
                 if (!(__VLS_ctx.startStep === 2))
@@ -214,6 +213,7 @@ if (__VLS_ctx.startStep === 2) {
             } },
         ...{ class: "btn btn-warning btn-sm px-4" },
     });
+    (__VLS_ctx.$t('ticket.whatsapp'));
 }
 if (__VLS_ctx.startStep === 3) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.form, __VLS_intrinsicElements.form)({
@@ -224,6 +224,7 @@ if (__VLS_ctx.startStep === 3) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.h4, __VLS_intrinsicElements.h4)({
         ...{ class: "mb-3 text-center text-gradient fw-bold" },
     });
+    (__VLS_ctx.$t('ticket.register'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "row" },
     });
@@ -251,6 +252,7 @@ if (__VLS_ctx.startStep === 3) {
             __VLS_asFunctionalElement(__VLS_intrinsicElements.small, __VLS_intrinsicElements.small)({
                 ...{ class: "text-danger small-text" },
             });
+            (__VLS_ctx.$t('ticket.invalidCPF'));
         }
     }
     if (__VLS_ctx.selectedCpfCnpj === 'cnpj') {
@@ -274,6 +276,7 @@ if (__VLS_ctx.startStep === 3) {
             __VLS_asFunctionalElement(__VLS_intrinsicElements.small, __VLS_intrinsicElements.small)({
                 ...{ class: "text-danger small-text" },
             });
+            (__VLS_ctx.$t('ticket.invalidCNPJ'));
         }
     }
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
@@ -287,6 +290,7 @@ if (__VLS_ctx.startStep === 3) {
             for: "telefone",
             ...{ class: "form-label small mb-1" },
         });
+        (__VLS_ctx.$t('ticket.phone'));
         __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
             ...{ onInput: (__VLS_ctx.onTelefoneInput) },
             type: "tel",
@@ -301,6 +305,7 @@ if (__VLS_ctx.startStep === 3) {
             __VLS_asFunctionalElement(__VLS_intrinsicElements.small, __VLS_intrinsicElements.small)({
                 ...{ class: "text-danger small-text" },
             });
+            (__VLS_ctx.$t('ticket.invalidPhone'));
         }
     }
     if (__VLS_ctx.selectedContact === 'whatsapp') {
@@ -311,6 +316,7 @@ if (__VLS_ctx.startStep === 3) {
             for: "whatsapp",
             ...{ class: "form-label small mb-1" },
         });
+        (__VLS_ctx.$t('ticket.whatsapp'));
         __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
             ...{ onInput: (__VLS_ctx.onWhatsappInput) },
             type: "tel",
@@ -325,6 +331,7 @@ if (__VLS_ctx.startStep === 3) {
             __VLS_asFunctionalElement(__VLS_intrinsicElements.small, __VLS_intrinsicElements.small)({
                 ...{ class: "text-danger small-text" },
             });
+            (__VLS_ctx.$t('ticket.invalidPhone'));
         }
     }
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
@@ -337,6 +344,7 @@ if (__VLS_ctx.startStep === 3) {
         for: "cliente",
         ...{ class: "form-label small mb-1" },
     });
+    (__VLS_ctx.$t('ticket.client'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
         ...{ onInput: (__VLS_ctx.validateForm) },
         type: "text",
@@ -352,6 +360,7 @@ if (__VLS_ctx.startStep === 3) {
         for: "empresa",
         ...{ class: "form-label small mb-1" },
     });
+    (__VLS_ctx.$t('ticket.company'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
         ...{ onInput: (__VLS_ctx.validateForm) },
         type: "text",
@@ -367,6 +376,7 @@ if (__VLS_ctx.startStep === 3) {
         for: "emailEmpresa",
         ...{ class: "form-label small mb-1" },
     });
+    (__VLS_ctx.$t('ticket.email'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
         ...{ onInput: (__VLS_ctx.validateForm) },
         type: "email",
@@ -378,6 +388,7 @@ if (__VLS_ctx.startStep === 3) {
         __VLS_asFunctionalElement(__VLS_intrinsicElements.small, __VLS_intrinsicElements.small)({
             ...{ class: "text-danger small-text" },
         });
+        (__VLS_ctx.$t('ticket.invalidEmail'));
     }
     __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
         ...{ class: "form-group mb-3" },
@@ -386,6 +397,7 @@ if (__VLS_ctx.startStep === 3) {
         for: "descricaoServico",
         ...{ class: "form-label small mb-1" },
     });
+    (__VLS_ctx.$t('ticket.description'));
     __VLS_asFunctionalElement(__VLS_intrinsicElements.textarea, __VLS_intrinsicElements.textarea)({
         ...{ onInput: (__VLS_ctx.validateForm) },
         ...{ class: "form-control form-control-sm" },
@@ -399,7 +411,7 @@ if (__VLS_ctx.startStep === 3) {
         ...{ class: "btn btn-primary w-100 custom-btn hover-green btn-sm fw-bold" },
         disabled: (!__VLS_ctx.formValidation() || __VLS_ctx.isLoading),
     });
-    (__VLS_ctx.isLoading ? 'Enviando...' : 'Criar Nota');
+    (__VLS_ctx.isLoading ? __VLS_ctx.$t('common.loading') : __VLS_ctx.$t('ticket.createButton'));
 }
 /** @type {__VLS_StyleScopedClasses['d-flex']} */ ;
 /** @type {__VLS_StyleScopedClasses['flex-column']} */ ;
@@ -408,17 +420,6 @@ if (__VLS_ctx.startStep === 3) {
 /** @type {__VLS_StyleScopedClasses['position-relative']} */ ;
 /** @type {__VLS_StyleScopedClasses['pt-2']} */ ;
 /** @type {__VLS_StyleScopedClasses['page-background']} */ ;
-/** @type {__VLS_StyleScopedClasses['w-100']} */ ;
-/** @type {__VLS_StyleScopedClasses['mt-3']} */ ;
-/** @type {__VLS_StyleScopedClasses['px-3']} */ ;
-/** @type {__VLS_StyleScopedClasses['position-relative']} */ ;
-/** @type {__VLS_StyleScopedClasses['text-center']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn-success']} */ ;
-/** @type {__VLS_StyleScopedClasses['fw-bold']} */ ;
-/** @type {__VLS_StyleScopedClasses['rounded-pill']} */ ;
-/** @type {__VLS_StyleScopedClasses['px-4']} */ ;
-/** @type {__VLS_StyleScopedClasses['btn-sm']} */ ;
 /** @type {__VLS_StyleScopedClasses['mt-2']} */ ;
 /** @type {__VLS_StyleScopedClasses['text-center']} */ ;
 /** @type {__VLS_StyleScopedClasses['position-relative']} */ ;

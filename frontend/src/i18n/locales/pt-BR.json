@@ -52,6 +52,13 @@
         "secureLogin": "Login seguro",
         "roleAccess": "Acesso baseado em função",
         "passwordRecovery": "Recuperação de senha"
+      },
+      "multiTenancy": {
+        "title": "Multi-tenancy & Revenda",
+        "description": "Arquitetura robusta para múltiplos clientes. Cada cliente tem seu próprio ambiente isolado, permitindo que você atue como provedor de serviços.",
+        "isolatedData": "Dados Isolados",
+        "clientDashboard": "Painel do Cliente",
+        "providerModel": "Modelo de Provedor"
       }
     },
     "cta": {
@@ -132,7 +139,13 @@
     "byWhatsApp": "WhatsApp",
     "allClients": "Todos os Clientes",
     "searchButton": "Buscar",
-    "noResults": "Nenhum cliente encontrado."
+    "noResults": "Nenhum cliente encontrado.",
+    "optional": "(Opcional)",
+    "systemAccess": "Acesso ao Sistema (Nova Empresa)",
+    "accessPassword": "Senha de Acesso",
+    "confirmAccessPassword": "Confirmar Senha",
+    "passwordPlaceholder": "Senha para o cliente (Mín. 8 caracteres)",
+    "repeatPassword": "Repita a senha"
   },
   "ticket": {
     "register": "Cadastro de Nota de Serviço",
@@ -191,5 +204,23 @@
     "subtitle": "Sistema de Gerenciamento de Serviços",
     "poweredBy": "Desenvolvido por",
     "rights": "Todos os direitos reservados"
+  },
+  "configuration": {
+    "title": "Configurações",
+    "profile": "Configurações de Perfil",
+    "security": "Segurança",
+    "updateName": "Nome Completo",
+    "updatePassword": "Nova Senha",
+    "currentPassword": "Senha Atual",
+    "confirmPassword": "Confirmar Nova Senha",
+    "success": "Perfil atualizado com sucesso.",
+    "emailSent": "Um e-mail de confirmação foi enviado.",
+    "saveName": "Salvar Nome",
+    "savePassword": "Atualizar Senha",
+    "namePlaceholder": "Digite seu nome completo",
+    "currentPasswordPlaceholder": "Digite sua senha atual",
+    "newPasswordPlaceholder": "Digite sua nova senha (mín. 8 caracteres)",
+    "confirmPasswordPlaceholder": "Repita sua nova senha",
+    "passwordMismatch": "As senhas não coincidem."
   }
 }

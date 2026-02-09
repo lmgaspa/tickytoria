@@ -59,10 +59,11 @@ Responderemos em breve!
 // PATCH – Atualização parcial
 export const patchTicketByNotaServico = async (req: Request, res: Response): Promise<void> => {
   const { notaServico } = req.params;
+  const { companyId } = req.user as any;
 
   try {
     const updatedTicket = await Ticket.findOneAndUpdate(
-      { notaServico },
+      { notaServico, companyId },
       { $set: req.body },
       { new: true }
     );
@@ -109,10 +110,11 @@ export const patchTicketByNotaServico = async (req: Request, res: Response): Pro
 // PUT – Atualização total
 export const putTicketByNotaServico = async (req: Request, res: Response): Promise<void> => {
   const { notaServico } = req.params;
+  const { companyId } = req.user as any;
 
   try {
     const updatedTicket = await Ticket.findOneAndUpdate(
-      { notaServico },
+      { notaServico, companyId },
       req.body,
       { new: true }
     );

@@ -3,11 +3,8 @@
     <div class="page-background"></div>
 
     <!-- Botão de voltar fixo -->
-    <div class="w-100 mt-3 px-3 position-relative text-center" style="max-width: 600px; z-index: 1;">
-      <RouterLink to="/dashboard" class="btn btn-success fw-bold rounded-pill px-4 btn-sm">
-        ⬅️ Voltar ao menu anterior
-      </RouterLink>
-    </div>
+    <!-- Botão de voltar fixo -->
+    <BackButton to="/dashboard" />
 
     <form @submit.prevent="handleRegister" class="glass-card p-4 border rounded shadow-sm w-100 mt-3 position-relative" style="max-width: 800px; z-index: 1;">
       <h4 class="mb-3 text-center text-gradient fw-bold">Registrar Funcionário</h4>
@@ -85,6 +82,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import BackButton from './BackButton.vue'
 
 const name = ref('')
 const email = ref('')
@@ -129,8 +127,8 @@ const handleRegister = async () => {
 
   try {
     const payload = JSON.parse(atob(token.split('.')[1]))
-    if (payload.role !== 'admin') {
-      alert('Apenas administradores podem registrar novos funcionários.')
+    if (payload.role !== 'admin' && payload.role !== 'client') {
+             alert('Apenas administradores ou clientes podem registrar novos funcionários.')
       return
     }
 

@@ -52,6 +52,13 @@
         "secureLogin": "Inicio de sesión seguro",
         "roleAccess": "Acceso basado en roles",
         "passwordRecovery": "Recuperación de contraseña"
+      },
+      "multiTenancy": {
+        "title": "Multi-tenancy y Reventa",
+        "description": "Arquitectura robusta para múltiples clientes. Cada cliente tiene su propio entorno aislado, permitiéndole actuar como proveedor de servicios.",
+        "isolatedData": "Datos Aislados",
+        "clientDashboard": "Panel del Cliente",
+        "providerModel": "Modelo de Proveedor"
       }
     },
     "cta": {
@@ -132,7 +139,13 @@
     "byWhatsApp": "WhatsApp",
     "allClients": "Todos los Clientes",
     "searchButton": "Buscar",
-    "noResults": "No se encontró ningún cliente."
+    "noResults": "No se encontró ningún cliente.",
+    "optional": "(Opcional)",
+    "systemAccess": "Acceso al Sistema (Nueva Empresa)",
+    "accessPassword": "Contraseña de Acceso",
+    "confirmAccessPassword": "Confirmar Contraseña",
+    "passwordPlaceholder": "Contraseña para el cliente (Mín. 8 caracteres)",
+    "repeatPassword": "Repita la contraseña"
   },
   "ticket": {
     "register": "Registro de Nota de Servicio",
@@ -191,5 +204,23 @@
     "subtitle": "Sistema de Gestión de Servicios",
     "poweredBy": "Desarrollado por",
     "rights": "Todos los derechos reservados"
+  },
+  "configuration": {
+    "title": "Configuración",
+    "profile": "Configuración del Perfil",
+    "security": "Seguridad",
+    "updateName": "Nombre Completo",
+    "updatePassword": "Nueva Contraseña",
+    "currentPassword": "Contraseña Actual",
+    "confirmPassword": "Confirmar Nueva Contraseña",
+    "success": "Perfil actualizado con éxito.",
+    "emailSent": "Se ha enviado un correo de confirmación.",
+    "saveName": "Guardar Nombre",
+    "savePassword": "Actualizar Contraseña",
+    "namePlaceholder": "Ingrese su nombre completo",
+    "currentPasswordPlaceholder": "Ingrese su contraseña actual",
+    "newPasswordPlaceholder": "Ingrese su nueva contraseña (mín. 8 caracteres)",
+    "confirmPasswordPlaceholder": "Repita su nueva contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden."
   }
 }

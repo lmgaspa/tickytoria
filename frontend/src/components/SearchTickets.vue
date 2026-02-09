@@ -2,11 +2,7 @@
   <div class="full-height d-flex flex-column align-items-center p-4 position-relative">
     <div class="page-background"></div>
 
-    <div class="w-100 mb-3" style="max-width: 600px;">
-      <RouterLink to="/dashboard" class="btn btn-success w-100 fw-bold rounded-pill">
-        {{ $t('common.back') }}
-      </RouterLink>
-    </div>
+    <BackButton to="/dashboard" />
 
     <div class="card p-4 w-100" style="max-width: 600px;">
       <h2 class="mb-4 text-center text-gradient fw-bold">{{ $t('ticket.search') }}</h2>
@@ -67,6 +63,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 import { API_URL } from '../config';
+import BackButton from './BackButton.vue';
 
 const router = useRouter()
 const baseUrl = `${API_URL}/api/tickets`

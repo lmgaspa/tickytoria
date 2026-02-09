@@ -11,7 +11,8 @@ const sanitizeUser = (user: any) => {
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await User.find().sort({ role: 1, name: 1 });
+    const { companyId } = req.user as any;
+    const users = await User.find({ companyId }).sort({ role: 1, name: 1 });
     res.json(users.map(sanitizeUser));
   } catch (err) {
     next(err);
@@ -21,7 +22,8 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
 export const getUserByName = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const name = req.params.name?.trim();
-    const users = await User.find({ name: new RegExp(name, 'i') });
+    const { companyId } = req.user as any;
+    const users = await User.find({ name: new RegExp(name, 'i'), companyId });
     if (!users.length) {
       return res.status(404).json({ message: 'Funcionário não encontrado.' });
     }
@@ -34,7 +36,8 @@ export const getUserByName = async (req: Request, res: Response, next: NextFunct
 export const getUserByEmail = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.params.email?.trim();
-    const users = await User.find({ email: new RegExp(`^${email}$`, 'i') });
+    const { companyId } = req.user as any;
+    const users = await User.find({ email: new RegExp(`^${email}$`, 'i'), companyId });
     if (!users.length) {
       return res.status(404).json({ message: 'E-mail não encontrado.' });
     }
@@ -52,7 +55,8 @@ export const getUserByWhatsapp = async (req: Request, res: Response, next: NextF
     }
 
     const whatsapp = normalizePhoneNumber(rawParam);
-    const users = await User.find();
+    const { companyId } = req.user as any;
+    const users = await User.find({ companyId });
 
     const foundUsers = users.filter(
       user =>
@@ -73,7 +77,8 @@ export const getUserByWhatsapp = async (req: Request, res: Response, next: NextF
 export const getUserByRole = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const role = req.params.role?.trim();
-    const users = await User.find({ role: new RegExp(`^${role}$`, 'i') });
+    const { companyId } = req.user as any;
+    const users = await User.find({ role: new RegExp(`^${role}$`, 'i'), companyId });
     if (!users.length) {
       return res.status(404).json({ message: 'Nenhum funcionário encontrado para esta função.' });
     }

@@ -244,3 +244,147 @@ export const getResetPasswordTemplate = (lang: Language, resetLink: string) => {
 
   return { subject: subjects[lang], html: getBrandedHtml(content, lang) };
 };
+
+export const getWelcomeEmailTemplate = (lang: Language, data: { name: string; email: string; password: string; empresa: string }) => {
+  const subjects = {
+    pt: 'Bem-vindo ao Tickytoria - Suas Credenciais de Acesso',
+    en: 'Welcome to Tickytoria - Your Access Credentials',
+    es: 'Bienvenido a Tickytoria - Sus Credenciales de Acceso'
+  };
+
+  const titles = {
+    pt: 'Bem-vindo ao Tickytoria!',
+    en: 'Welcome to Tickytoria!',
+    es: '¡Bienvenido a Tickytoria!'
+  };
+
+  const messages = {
+    pt: `Olá <strong>${data.name}</strong>, sua conta corporativa para <strong>${data.empresa}</strong> foi criada com sucesso.`,
+    en: `Hello <strong>${data.name}</strong>, your corporate account for <strong>${data.empresa}</strong> has been successfully created.`,
+    es: `Hola <strong>${data.name}</strong>, su cuenta corporativa para <strong>${data.empresa}</strong> ha sido creada con éxito.`
+  };
+
+  const credentialsTitle = {
+    pt: 'Suas Credenciais de Acesso:',
+    en: 'Your Access Credentials:',
+    es: 'Sus Credenciales de Acceso:'
+  };
+
+  const labels = {
+    pt: { email: 'E-mail', password: 'Senha Temporária' },
+    en: { email: 'Email', password: 'Temporary Password' },
+    es: { email: 'Correo', password: 'Contraseña Temporal' }
+  };
+
+  const instructionHeaders = {
+    pt: 'Instruções de Segurança:',
+    en: 'Security Instructions:',
+    es: 'Instrucciones de Seguridad:'
+  };
+
+  const instruction = {
+    pt: 'Recomendamos que você altere sua senha no menu "Configurações" após o primeiro login.',
+    en: 'We recommend that you change your password in the "Settings" menu after your first login.',
+    es: 'Le recomendamos que cambie su contraseña en el menú "Configuración" después del primer inicio de sesión.'
+  };
+
+  const buttonText = {
+    pt: 'Acessar Sistema',
+    en: 'Access System',
+    es: 'Acceder al Sistema'
+  };
+
+  const l = labels[lang];
+
+  const content = `
+    <h2 style="color: #333; margin-top: 0; margin-bottom: 20px;">${titles[lang]}</h2>
+    <p style="font-size: 16px; line-height: 1.5; color: #555;">${messages[lang]}</p>
+    
+    <div style="background-color: #f8f9fa; border-left: 4px solid #4A90E2; padding: 20px; margin: 25px 0; border-radius: 4px;">
+      <h3 style="margin-top: 0; color: #4A90E2; font-size: 18px; margin-bottom: 15px;">${credentialsTitle[lang]}</h3>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="padding: 8px 0; border-bottom: 1px solid #e9ecef;">
+          <strong style="color: #333;">${l.email}:</strong> <span style="color: #555;">${data.email}</span>
+        </li>
+        <li style="padding: 8px 0;">
+          <strong style="color: #333;">${l.password}:</strong> <span style="background-color: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #d63384;">${data.password}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
+      <strong style="display: block; margin-bottom: 5px;">${instructionHeaders[lang]}</strong>
+      ${instruction[lang]}
+    </div>
+
+    <div style="margin: 35px 0; text-align: center;">
+      <a href="https://tickytoria-d1c0ff69e067.herokuapp.com/login" style="background-color: #00cca3; color: white; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        ${buttonText[lang]}
+      </a>
+    </div>
+  `;
+
+  return { subject: subjects[lang], html: getBrandedHtml(content, lang) };
+};
+
+export const getProfileUpdateEmailTemplate = (lang: Language, data: { name: string; email: string; changes: string[] }) => {
+  const subjects = {
+    pt: 'Tickytoria - Atualização de Perfil',
+    en: 'Tickytoria - Profile Update',
+    es: 'Tickytoria - Actualización de Perfil'
+  };
+
+  const titles = {
+    pt: 'Atualização de Perfil',
+    en: 'Profile Update',
+    es: 'Actualización de Perfil'
+  };
+
+  const messages = {
+    pt: `Olá <strong>${data.name}</strong>, as seguintes informações do seu perfil foram atualizadas com sucesso:`,
+    en: `Hello <strong>${data.name}</strong>, the following information in your profile has been successfully updated:`,
+    es: `Hola <strong>${data.name}</strong>, la siguiente información de su perfil se ha actualizado con éxito:`
+  };
+
+  const changesList = data.changes.map(change => {
+    const changeMap: Record<string, Record<string, string>> = {
+      name: { pt: 'Nome', en: 'Name', es: 'Nombre' },
+      password: { pt: 'Senha', en: 'Password', es: 'Contraseña' }
+    };
+    const label = changeMap[change]?.[lang] || change;
+    return `
+      <li style="padding: 12px 15px; border-bottom: 1px solid #eee; display: flex; align-items: center;">
+        <span style="color: #28a745; font-size: 1.2em; margin-right: 10px;">✓</span> 
+        <strong>${label}</strong>
+      </li>
+    `;
+  }).join('');
+
+  const securityNote = {
+    pt: 'Se você não realizou essas alterações, entre em contato com o suporte ou altere sua senha imediatamente.',
+    en: 'If you did not make these changes, please contact support or change your password immediately.',
+    es: 'Si no realizó estos cambios, comuníquese con el soporte o cambie su contraseña de inmediato.'
+  };
+
+  const content = `
+    <h2 style="color: #333; margin-top: 0;">${titles[lang]}</h2>
+    <p style="font-size: 16px; color: #555;">${messages[lang]}</p>
+    
+    <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; margin: 20px 0;">
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        ${changesList}
+      </ul>
+    </div>
+
+    <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; color: #856404; padding: 15px; margin-top: 25px; border-radius: 4px;">
+      <strong style="display: block; margin-bottom: 5px;">⚠️ Segurança / Security</strong>
+      ${securityNote[lang]}
+    </div>
+    
+    <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #999;">
+      <p>IP: ${data.email} | ${new Date().toLocaleString()}</p>
+    </div>
+  `;
+
+  return { subject: subjects[lang], html: getBrandedHtml(content, lang) };
+};

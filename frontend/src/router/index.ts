@@ -12,6 +12,7 @@ import ResetPassword from '../components/ResetPassword.vue'
 import EditTicket from '../components/EditTicket.vue'
 import RegisterClientForm from '../components/RegisterClientForm.vue'
 import SearchEmployees from '../components/SearchEmployees.vue'
+import ConfigurationPage from '../components/ConfigurationPage.vue'
 
   const routes = [
     { path: '/', component: HomePage },
@@ -31,7 +32,7 @@ import SearchEmployees from '../components/SearchEmployees.vue'
     },
     { path: '/register-client',
       component: RegisterClientForm,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     { path: '/search-ticket',
       component: SearchTickets,
@@ -39,7 +40,7 @@ import SearchEmployees from '../components/SearchEmployees.vue'
     },
     { path: '/search-client',
       component: SearchClients,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
     path: '/edit-ticket/:ticketId',
@@ -56,13 +57,39 @@ import SearchEmployees from '../components/SearchEmployees.vue'
     path: '/delete-employee',
     component: () => import('../components/DeleteEmployee.vue'),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/configuration',
+    component: ConfigurationPage,
+    meta: { requiresAuth: true }
   }
   ]
 
   const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+      // scroll to top for all route navigations
+      if (savedPosition) {
+        return savedPosition
+      }
+      return { top: 0 }
+    }
   })
+
+  // Helper to decode JWT payload safely
+  function parseJwt(token: string) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      return null;
+    }
+  }
 
   router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('token')
@@ -70,7 +97,23 @@ import SearchEmployees from '../components/SearchEmployees.vue'
     if (to.meta.requiresAuth && !token) {
       next('/login') // 🔒 redireciona para login se não tiver token
     } else {
-      next()
+      // Check for admin requirement
+      if (to.meta.requiresAdmin) {
+        const payload = parseJwt(token || '');
+        if (payload && payload.role === 'admin') {
+          next();
+        } else {
+          // Identify if user is authenticated but not admin
+          if (token) {
+             // Optional: redirect to dashboard or show unauthorized
+             next('/dashboard'); 
+          } else {
+             next('/login');
+          }
+        }
+      } else {
+        next()
+      }
     }
   })
 

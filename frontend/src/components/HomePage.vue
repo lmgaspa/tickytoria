@@ -3,7 +3,7 @@
     <div class="page-background"></div>
 
     <!-- Hero Section -->
-    <section class="hero-section d-flex align-items-center justify-content-center py-3 position-relative" style="min-height: 40vh;">
+    <section class="hero-section d-flex align-items-center justify-content-center pt-3 pb-0 position-relative" style="min-height: 40vh;">
       <div class="glass-card p-4 text-center position-relative z-2 hero-card">
         <div class="mb-1 logo-container">
           <span class="logo-icon">✨</span>
@@ -14,7 +14,7 @@
           {{ $t('home.hero.description') }}
         </p>
         
-        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+        <div class="d-flex flex-column flex-lg-row gap-3 justify-content-center">
           <button @click="goToLogin" class="btn btn-primary-glow px-4 py-2 fw-bold rounded-pill">
             {{ $t('home.hero.accessButton') }}
           </button>
@@ -135,6 +135,24 @@
               </ul>
             </div>
           </div>
+
+          <!-- Feature 7: Multi-tenancy -->
+          <div class="col-md-6 col-lg-4 mx-auto">
+            <div class="feature-card glass-card p-4 h-100">
+              <div class="feature-icon mb-3">
+                <i class="bi bi-diagram-3-fill fs-1 text-info"></i>
+              </div>
+              <h4 class="fw-bold mb-3">{{ $t('home.features.multiTenancy.title') }}</h4>
+              <p class="text-muted-light">
+                {{ $t('home.features.multiTenancy.description') }}
+              </p>
+              <ul class="feature-list">
+                <li><i class="bi bi-check-circle-fill text-success"></i> {{ $t('home.features.multiTenancy.isolatedData') }}</li>
+                <li><i class="bi bi-check-circle-fill text-success"></i> {{ $t('home.features.multiTenancy.clientDashboard') }}</li>
+                <li><i class="bi bi-check-circle-fill text-success"></i> {{ $t('home.features.multiTenancy.providerModel') }}</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <!-- CTA Section -->
@@ -214,7 +232,7 @@ const goToLogin = () => {
 
 .features-section {
   min-height: auto;
-  padding-top: 2rem !important;
+  padding-top: 0rem !important;
   padding-bottom: 3rem !important;
 }
 
@@ -299,7 +317,7 @@ const goToLogin = () => {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .hero-card {
     padding: 2rem !important;
   }

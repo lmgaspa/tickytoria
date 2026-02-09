@@ -9,15 +9,28 @@ const submit = async () => {
     success.value = '';
     error.value = '';
     try {
+        const locale = localStorage.getItem('locale') || 'pt-BR';
+        const lang = locale.split('-')[0]; // 'pt', 'en', 'es'
         const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email.value })
+            body: JSON.stringify({ email: email.value, lang })
         });
         const result = await response.json();
         if (!response.ok)
             throw new Error(result.message || 'Erro ao enviar e-mail.');
-        router.push('/senha-enviada');
+        // Success logic
+        const maskedEmail = result.maskedEmail || email.value;
+        success.value = `E-mail enviado para ${maskedEmail}. Verifique sua caixa de spam.`;
+        // Countdown
+        let seconds = 5;
+        const interval = setInterval(() => {
+            seconds--;
+            if (seconds <= 0) {
+                clearInterval(interval);
+                router.push('/login');
+            }
+        }, 1000);
     }
     catch (err) {
         error.value = err.message;
@@ -44,6 +57,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({
     ...{ class: "text-center fw-bold mb-3" },
 });
+(__VLS_ctx.$t('auth.forgotPassword'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.form, __VLS_intrinsicElements.form)({
     ...{ onSubmit: (__VLS_ctx.submit) },
 });
@@ -54,11 +68,12 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.label, __VLS_intrinsicElements
     for: "email",
     ...{ class: "form-label" },
 });
+(__VLS_ctx.$t('auth.email'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
     type: "email",
     id: "email",
     ...{ class: "form-control" },
-    placeholder: "Digite seu e-mail",
+    placeholder: (__VLS_ctx.$t('auth.emailPlaceholder')),
     required: true,
 });
 (__VLS_ctx.email);
@@ -67,6 +82,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
     ...{ class: "btn btn-primary w-100 fw-semibold rounded-pill" },
     disabled: (!__VLS_ctx.email),
 });
+(__VLS_ctx.$t('auth.sendResetLink'));
 if (__VLS_ctx.success) {
     __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
         ...{ class: "text-success mt-3 text-center" },

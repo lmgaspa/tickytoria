@@ -11,9 +11,16 @@ export const register = async (
 ): Promise<void> => {
   try {
     const { name, email, password, role, whatsapp, endereco } = req.body;
+    const { companyId, companyName } = req.user as any;
 
     if (password.length < 8) {
       res.status(400).json({ message: 'A senha deve ter no mínimo 8 caracteres.' });
+      return;
+    }
+
+    const requestUser = req.user as any;
+    if (requestUser.role !== 'admin' && requestUser.role !== 'client') {
+      res.status(403).json({ message: 'Acesso negado. Apenas administradores e clientes podem registrar funcionários.' });
       return;
     }
 
@@ -35,7 +42,9 @@ export const register = async (
       password: hashedPassword, 
       role, 
       whatsapp, 
-      endereco 
+      endereco,
+      companyId, // Inherit from admin
+      companyName
     });
 
     const lang = (req.body.lang || 'pt') as any;
@@ -94,7 +103,7 @@ export const login = async (
     }
 
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      { id: user._id, role: user.role, companyId: user.companyId, companyName: user.companyName },
       process.env.JWT_SECRET!,
       { expiresIn: '1h' }
     );

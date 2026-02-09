@@ -26,3 +26,12 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
     res.status(403).json({ message: 'Token inválido ou expirado' });
   }
 };
+
+export const verifyAdmin = (req: Request, res: Response, next: NextFunction): void => {
+  const user = req.user as any;
+  if (user && user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Acesso negado: Requer privilégios de administrador.' });
+  }
+};

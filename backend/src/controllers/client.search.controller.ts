@@ -12,7 +12,8 @@ const normalizePhoneNumber = (number: string): string => number.replace(/\D/g, '
 
 export const getAllClients = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const clients = await Client.find().sort({ createdAt: -1 });
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ companyId }).sort({ createdAt: -1 });
     res.json(clients.map(formatResult));
   } catch (err) {
     next(err);
@@ -22,12 +23,8 @@ export const getAllClients = async (req: Request, res: Response, next: NextFunct
 export const getClientByName = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const name = req.params.name?.trim();
-    // Using partial match for name to be more user friendly, or exact match if preferred.
-    // Ticket search uses exact match for 'cliente' field (which is just a string name on Ticket), 
-    // but full text search is usually better for names. 
-    // However, to strictly follow "mesmos moldes" (same pattern) as Ticket:
-    // getTicketsByCliente uses `new RegExp(`^${cliente}$`, 'i')`
-    const clients = await Client.find({ name: new RegExp(`^${name}$`, 'i') });
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ name: new RegExp(`^${name}$`, 'i'), companyId });
     if (!clients.length)
       return res.status(404).json({ message: 'Cliente não encontrado.' });
     res.json(clients.map(formatResult));
@@ -39,7 +36,8 @@ export const getClientByName = async (req: Request, res: Response, next: NextFun
 export const getClientByCpf = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cpf = req.params.cpf?.trim();
-    const clients = await Client.find({ cpf: new RegExp(`^${cpf}$`, 'i') });
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ cpf: new RegExp(`^${cpf}$`, 'i'), companyId });
     if (!clients.length)
       return res.status(404).json({ message: 'CPF não encontrado.' });
     res.json(clients.map(formatResult));
@@ -51,7 +49,8 @@ export const getClientByCpf = async (req: Request, res: Response, next: NextFunc
 export const getClientByCnpj = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cnpj = req.params.cnpj?.trim();
-    const clients = await Client.find({ cnpj: new RegExp(`^${cnpj}$`, 'i') });
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ cnpj: new RegExp(`^${cnpj}$`, 'i'), companyId });
     if (!clients.length)
       return res.status(404).json({ message: 'CNPJ não encontrado.' });
     res.json(clients.map(formatResult));
@@ -63,7 +62,8 @@ export const getClientByCnpj = async (req: Request, res: Response, next: NextFun
 export const getClientByEmail = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.params.email?.trim();
-    const clients = await Client.find({ emailEmpresa: new RegExp(`^${email}$`, 'i') });
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ emailEmpresa: new RegExp(`^${email}$`, 'i'), companyId });
     if (!clients.length)
       return res.status(404).json({ message: 'E-mail não encontrado.' });
     res.json(clients.map(formatResult));
@@ -75,8 +75,8 @@ export const getClientByEmail = async (req: Request, res: Response, next: NextFu
 export const getClientByEmpresa = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const empresa = req.params.empresa?.trim();
-    // Ticket search uses partial match for empresa
-    const clients = await Client.find({ empresa: new RegExp(`${empresa}`, 'i') });
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ empresa: new RegExp(`${empresa}`, 'i'), companyId });
     if (!clients.length)
       return res.status(404).json({ message: 'Empresa não encontrada.' });
     res.json(clients.map(formatResult));
@@ -93,7 +93,8 @@ export const getClientByWhatsapp = async (req: Request, res: Response, next: Nex
     }
 
     const whatsapp = normalizePhoneNumber(rawParam);
-    const clients = await Client.find();
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ companyId });
     
     // Filter locally to handle normalization format differences if stored differently
     const foundClients = clients.filter(
@@ -120,7 +121,8 @@ export const getClientByTelefone = async (req: Request, res: Response, next: Nex
     }
 
     const telefone = normalizePhoneNumber(rawParam);
-    const clients = await Client.find();
+    const { companyId } = req.user as any;
+    const clients = await Client.find({ companyId });
 
     const foundClients = clients.filter(
       client =>

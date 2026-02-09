@@ -10,6 +10,7 @@ export interface ClientDocument extends Document {
   whatsapp?: string;
   endereco: string;
   createdAt?: Date;
+  companyId: string;
 }
 
 const ClientSchema = new Schema<ClientDocument>({
@@ -21,7 +22,8 @@ const ClientSchema = new Schema<ClientDocument>({
   telefone: { type: String },
   whatsapp: { type: String },
   endereco: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  companyId: { type: String, required: true, index: true }
 });
 
 export default mongoose.model<ClientDocument>('Client', ClientSchema);

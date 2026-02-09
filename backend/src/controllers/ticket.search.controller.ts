@@ -11,7 +11,8 @@ const formatResult = (ticket: any) => ({
 export const getTicketsByCliente = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cliente = req.params.cliente?.trim();
-    const tickets = await Ticket.find({ cliente: new RegExp(`^${cliente}$`, 'i') });
+    const { companyId } = req.user as any;
+    const tickets = await Ticket.find({ cliente: new RegExp(`^${cliente}$`, 'i'), companyId });
     if (!tickets.length)
       return res.status(404).json({ message: 'Cliente não encontrado no registro.' });
     res.json(tickets.map(formatResult));
@@ -23,7 +24,8 @@ export const getTicketsByCliente = async (req: Request, res: Response, next: Nex
 export const getTicketsByCpf = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cpf = req.params.cpf?.trim();
-    const tickets = await Ticket.find({ cpf: new RegExp(`^${cpf}$`, 'i') });
+    const { companyId } = req.user as any;
+    const tickets = await Ticket.find({ cpf: new RegExp(`^${cpf}$`, 'i'), companyId });
     if (!tickets.length)
       return res.status(404).json({ message: 'CPF não encontrado no registro.' });
     res.json(tickets.map(formatResult));
@@ -35,7 +37,8 @@ export const getTicketsByCpf = async (req: Request, res: Response, next: NextFun
 export const getTicketsByCnpj = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cnpj = req.params.cnpj?.trim();
-    const tickets = await Ticket.find({ cnpj: new RegExp(`^${cnpj}$`, 'i') });
+    const { companyId } = req.user as any;
+    const tickets = await Ticket.find({ cnpj: new RegExp(`^${cnpj}$`, 'i'), companyId });
     if (!tickets.length)
       return res.status(404).json({ message: 'CNPJ não encontrado no registro.' });
     res.json(tickets.map(formatResult));
@@ -54,8 +57,9 @@ export const getTicketsByWhatsapp = async (req: Request, res: Response, next: Ne
     }
 
     const whatsapp = normalizePhoneNumber(rawParam);
+    const { companyId } = req.user as any;
 
-    const tickets = await Ticket.find();
+    const tickets = await Ticket.find({ companyId });
 
     const foundTickets = tickets.filter(
       ticket =>
@@ -81,8 +85,9 @@ export const getTicketsByTelefone = async (req: Request, res: Response, next: Ne
     }
 
     const telefone = normalizePhoneNumber(rawParam);
+    const { companyId } = req.user as any;
 
-    const tickets = await Ticket.find();
+    const tickets = await Ticket.find({ companyId });
 
     const foundTickets = tickets.filter(
       ticket =>
@@ -103,7 +108,8 @@ export const getTicketsByTelefone = async (req: Request, res: Response, next: Ne
 export const getTicketsByEmail = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.params.email?.trim();
-    const tickets = await Ticket.find({ emailEmpresa: new RegExp(`^${email}$`, 'i') });
+    const { companyId } = req.user as any;
+    const tickets = await Ticket.find({ emailEmpresa: new RegExp(`^${email}$`, 'i'), companyId });
     if (!tickets.length)
       return res.status(404).json({ message: 'E-mail não encontrado no registro.' });
     res.json(tickets.map(formatResult));
@@ -115,7 +121,8 @@ export const getTicketsByEmail = async (req: Request, res: Response, next: NextF
 export const getTicketsByEmpresa = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const empresa = req.params.empresa?.trim();
-    const tickets = await Ticket.find({ empresa: new RegExp(`${empresa}`, 'i') }).sort({ createdAt: -1 });
+    const { companyId } = req.user as any;
+    const tickets = await Ticket.find({ empresa: new RegExp(`${empresa}`, 'i'), companyId }).sort({ createdAt: -1 });
     if (!tickets.length)
       return res.status(404).json({ message: 'Empresa não encontrada no registro.' });
     res.json(tickets.map(formatResult));
@@ -127,7 +134,8 @@ export const getTicketsByEmpresa = async (req: Request, res: Response, next: Nex
 export const getTicketByNota = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const notaServico = req.params.notaServico?.trim();
-    const ticket = await Ticket.findOne({ notaServico: new RegExp(`^${notaServico}$`, 'i') });
+    const { companyId } = req.user as any;
+    const ticket = await Ticket.findOne({ notaServico: new RegExp(`^${notaServico}$`, 'i'), companyId });
     if (!ticket)
       return res.status(404).json({ message: 'Nota de serviço não encontrada.' });
     res.json(formatResult(ticket));
@@ -138,7 +146,8 @@ export const getTicketByNota = async (req: Request, res: Response, next: NextFun
 
 export const getAllTickets = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const tickets = await Ticket.find().sort({ createdAt: -1 });
+    const { companyId } = req.user as any;
+    const tickets = await Ticket.find({ companyId }).sort({ createdAt: -1 });
     res.json(tickets.map(formatResult));
   } catch (err) {
     next(err);

@@ -22,6 +22,7 @@ export const createTicket = async (
       whatsapp,
       descricaoServico,
     } = req.body;
+    const { companyId } = req.user as any;
 
     const notaServico = `NS-${Date.now()}`;
     const createdAt = new Date();
@@ -37,6 +38,7 @@ export const createTicket = async (
       descricaoServico,
       notaServico,
       createdAt,
+      companyId
     });
 
     const saved = await newTicket.save();

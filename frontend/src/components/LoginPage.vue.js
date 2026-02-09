@@ -46,9 +46,11 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
 __VLS_asFunctionalElement(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({
     ...{ class: "fw-bold mb-1 text-gradient" },
 });
+(__VLS_ctx.$t('auth.login'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.p, __VLS_intrinsicElements.p)({
     ...{ class: "text-muted-light small" },
 });
+(__VLS_ctx.$t('auth.email'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.form, __VLS_intrinsicElements.form)({
     ...{ onSubmit: (__VLS_ctx.handleLogin) },
 });
@@ -59,11 +61,12 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.label, __VLS_intrinsicElements
     for: "email",
     ...{ class: "form-label ms-1" },
 });
+(__VLS_ctx.$t('auth.email'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
     type: "email",
     id: "email",
     ...{ class: "form-control glass-input" },
-    placeholder: "nome@exemplo.com",
+    placeholder: "name@exemplo.com",
     required: true,
 });
 (__VLS_ctx.email);
@@ -74,6 +77,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.label, __VLS_intrinsicElements
     for: "password",
     ...{ class: "form-label ms-1" },
 });
+(__VLS_ctx.$t('auth.password'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.input)({
     type: (__VLS_ctx.showPassword ? 'text' : 'password'),
     id: "password",
@@ -93,6 +97,7 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.button, __VLS_intrinsicElement
     type: "submit",
     ...{ class: "btn btn-primary-glow w-100 fw-bold rounded-pill py-2 mb-3" },
 });
+(__VLS_ctx.$t('auth.login'));
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "text-center" },
 });
@@ -100,14 +105,15 @@ const __VLS_0 = {}.RouterLink;
 /** @type {[typeof __VLS_components.RouterLink, typeof __VLS_components.RouterLink, ]} */ ;
 // @ts-ignore
 const __VLS_1 = __VLS_asFunctionalComponent(__VLS_0, new __VLS_0({
-    to: "/esqueci-senha",
+    to: "/forgot-password",
     ...{ class: "text-muted-light small text-decoration-none hover-white" },
 }));
 const __VLS_2 = __VLS_1({
-    to: "/esqueci-senha",
+    to: "/forgot-password",
     ...{ class: "text-muted-light small text-decoration-none hover-white" },
 }, ...__VLS_functionalComponentArgsRest(__VLS_1));
 __VLS_3.slots.default;
+(__VLS_ctx.$t('auth.forgotPassword'));
 var __VLS_3;
 /** @type {__VLS_StyleScopedClasses['login-page']} */ ;
 /** @type {__VLS_StyleScopedClasses['d-flex']} */ ;

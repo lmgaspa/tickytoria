@@ -43,7 +43,8 @@ camposPermitidos.forEach((campo) => {
 
   router.put(basePath, verifyToken, async (req, res) => {
     try {
-      const filtro = campo === 'id' ? { _id: req.params.valor } : { [campo]: req.params.valor };
+      const { companyId } = req.user as any;
+      const filtro = campo === 'id' ? { _id: req.params.valor, companyId } : { [campo]: req.params.valor, companyId };
       const ticket = await Ticket.findOneAndUpdate(filtro, { $set: req.body }, { new: true });
       if (!ticket) return res.status(404).json({ erro: 'Ticket não encontrado' });
       res.json(ticket);
@@ -54,7 +55,8 @@ camposPermitidos.forEach((campo) => {
 
   router.patch(basePath, verifyToken, async (req, res) => {
     try {
-      const filtro = campo === 'id' ? { _id: req.params.valor } : { [campo]: req.params.valor };
+      const { companyId } = req.user as any;
+      const filtro = campo === 'id' ? { _id: req.params.valor, companyId } : { [campo]: req.params.valor, companyId };
       const ticket = await Ticket.findOneAndUpdate(filtro, { $set: req.body }, { new: true });
       if (!ticket) return res.status(404).json({ erro: 'Ticket não encontrado' });
       res.json(ticket);

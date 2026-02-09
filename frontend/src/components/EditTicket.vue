@@ -2,11 +2,7 @@
   <div class="d-flex align-items-center justify-content-center vh-100 position-relative">
     <div class="page-background"></div>
     <div class="glass-card p-4" style="width: 100%; max-width: 450px;">
-      <div class="w-100 mb-3" style="max-width: 600px;">
-        <RouterLink to="/dashboard" class="btn btn-primary w-100 fw-bold rounded-pill">
-          ⬅️ Voltar ao menu anterior
-        </RouterLink>
-      </div>
+      <BackButton to="/dashboard" />
 
       <h2 class="text-center fw-bold text-gradient mb-3">Editar Nota de Serviço</h2>
 
@@ -51,6 +47,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { API_URL } from '../config';
+import BackButton from './BackButton.vue';
 
 const route = useRoute()
 const router = useRouter()
