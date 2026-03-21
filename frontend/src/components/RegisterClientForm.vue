@@ -17,14 +17,14 @@
 
         <div class="col-md-6 mb-2">
           <label for="empresa" class="form-label small mb-1">{{ $t('client.company') }}</label>
-          <input type="text" class="form-control form-control-sm" id="empresa" v-model="client.empresa" @input="validateForm" required />
+          <input type="text" class="form-control form-control-sm" id="empresa" v-model="client.empresa" />
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-6 mb-2">
-            <label for="cpf" class="form-label small mb-1">{{ $t('client.byCPF') }} ({{ $t('client.optional') }})</label>
-            <input type="text" class="form-control form-control-sm" id="cpf" v-model="client.cpf" @input="onCpfInput" maxlength="14" placeholder="000.000.000-00" />
+            <label for="cpf" class="form-label small mb-1">{{ $t('client.byCPF') }} </label>
+            <input type="text" class="form-control form-control-sm" id="cpf" v-model="client.cpf" @input=input required "14" placeholder="000.000.000-00" />
             <small v-if="client.cpf && !isCpfValid" class="text-danger small-text">{{ $t('ticket.invalidCPF') }}</small>
         </div>
 
@@ -51,7 +51,7 @@
 
       <div class="form-group mb-2">
         <label for="emailEmpresa" class="form-label small mb-1">{{ $t('ticket.email') }}</label>
-        <input type="email" class="form-control form-control-sm" id="emailEmpresa" v-model="client.emailEmpresa" @input="validateForm" />
+        <input type="email" class="form-control form-control-sm" id="emailEmpresa" v-model="client.emailEmpresa" @input="validateForm" required />
         <small v-if="client.emailEmpresa && !isEmailValid" class="text-danger small-text">{{ $t('ticket.invalidEmail') }}</small>
       </div>
 

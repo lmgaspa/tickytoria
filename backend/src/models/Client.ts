@@ -15,15 +15,15 @@ export interface ClientDocument extends Document {
 
 const ClientSchema = new Schema<ClientDocument>({
   name: { type: String, required: true },
-  empresa: { type: String, required: true },
-  cpf: { type: String },
+  empresa: { type: String},
+  cpf: { type: String, required: true },
   cnpj: { type: String },
-  emailEmpresa: { type: String },
+  emailEmpresa: { type: String, required: true, index: true },
   telefone: { type: String },
   whatsapp: { type: String },
   endereco: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  companyId: { type: String, required: true, index: true }
+  companyId: { type: String }
 });
 
 export default mongoose.model<ClientDocument>('Client', ClientSchema);
