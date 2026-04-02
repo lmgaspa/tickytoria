@@ -4,6 +4,7 @@ import User from '../models/User';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import { sendTicketEmail } from '../utils/emailService';
+import { generateFirstLoginToken } from './password.controller';
 
 export const createClient = async (
   req: Request,
@@ -28,12 +29,14 @@ export const createClient = async (
 
     const saved = await newClient.save();
 
-    let newUser = null;
+    let newUser: any = null;
 
-    if (createAccess && password && emailEmpresa) {
+    if (createAccess && emailEmpresa) {
       // Create a NEW company for this client
       const newCompanyId = new mongoose.Types.ObjectId().toString();
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // Use a temporary random password (will be properly set via token)
+      const tempPassword = Math.random().toString(36).slice(-12);
+      const hashedPassword = await bcrypt.hash(tempPassword, 10);
       
       const existingUser = await User.findOne({ email: emailEmpresa });
       if (!existingUser) {
@@ -68,12 +71,13 @@ export const createClient = async (
       // 1. E-mail de confirmação de cadastro (dados gerais)
       await sendTicketEmail(emailEmpresa, subject, html);
       
-      // 2. E-mail de boas-vindas com credenciais (se usuário foi criado)
+      // 2. E-mail de boas-vindas com link para definir senha (se usuário foi criado)
       if (newUser) {
+          const resetToken = generateFirstLoginToken(newUser._id.toString());
           const welcomeData = getWelcomeEmailTemplate(lang, {
             name,
             email: emailEmpresa,
-            password: password, // Send raw password so they can log in
+            resetToken,
             empresa
           });
           

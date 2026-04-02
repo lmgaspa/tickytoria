@@ -1,0 +1,37 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'tickytoria-monitor'
+    environment: 'development'
+
+# Configurações de alertas
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Arquivo de regras de alertas
+rule_files: []
+
+scrape_configs:
+  # Prometheus selbst
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Backend application com métricas Prometheus
+  - job_name: 'backend'
+    static_configs:
+      - targets: ['backend:9464']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+
+  # Jaeger metrics (opcional, se Jaeger expor métricas)
+  - job_name: 'jaeger'
+    static_configs:
+      - targets: ['jaeger:14269']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s

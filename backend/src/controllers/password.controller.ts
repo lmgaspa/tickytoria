@@ -62,3 +62,15 @@ export const resetPassword = async (req: Request, res: Response) => {
     return res.status(400).json({ message: 'Token inválido ou expirado.' })
   }
 }
+
+/**
+ * Gera um token para primeira configuração de senha (após cadastro)
+ * Token expira em 24 horas
+ */
+export const generateFirstLoginToken = (userId: string): string => {
+  return jwt.sign(
+    { id: userId, type: 'first-login' },
+    process.env.JWT_SECRET!,
+    { expiresIn: '24h' }
+  )
+}

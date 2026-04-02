@@ -245,11 +245,11 @@ export const getResetPasswordTemplate = (lang: Language, resetLink: string) => {
   return { subject: subjects[lang], html: getBrandedHtml(content, lang) };
 };
 
-export const getWelcomeEmailTemplate = (lang: Language, data: { name: string; email: string; password: string; empresa: string }) => {
+export const getWelcomeEmailTemplate = (lang: Language, data: { name: string; email: string; resetToken: string; empresa: string }) => {
   const subjects = {
-    pt: 'Bem-vindo ao Tickytoria - Suas Credenciais de Acesso',
-    en: 'Welcome to Tickytoria - Your Access Credentials',
-    es: 'Bienvenido a Tickytoria - Sus Credenciales de Acceso'
+    pt: 'Bem-vindo ao Tickytoria - Defina sua Senha',
+    en: 'Welcome to Tickytoria - Set Your Password',
+    es: 'Bienvenido a Tickytoria - Establezca su Contraseña'
   };
 
   const titles = {
@@ -307,7 +307,7 @@ export const getWelcomeEmailTemplate = (lang: Language, data: { name: string; em
           <strong style="color: #333;">${l.email}:</strong> <span style="color: #555;">${data.email}</span>
         </li>
         <li style="padding: 8px 0;">
-          <strong style="color: #333;">${l.password}:</strong> <span style="background-color: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #d63384;">${data.password}</span>
+          <strong style="color: #333;">${l.password}:</strong> <span style="color: #555;">Clique no botão abaixo para definir a senha segura.</span>
         </li>
       </ul>
     </div>
@@ -318,7 +318,7 @@ export const getWelcomeEmailTemplate = (lang: Language, data: { name: string; em
     </div>
 
     <div style="margin: 35px 0; text-align: center;">
-      <a href="https://tickytoria-d1c0ff69e067.herokuapp.com/login" style="background-color: #00cca3; color: white; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/set-password?token=${data.resetToken}" style="background-color: #00cca3; color: white; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         ${buttonText[lang]}
       </a>
     </div>
